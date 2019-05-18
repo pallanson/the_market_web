@@ -9,7 +9,6 @@ const Index = () => (
     <div className="container">
         <Categories/>
         <Shop/>
-        <Footer/>
     </div>
 );
 

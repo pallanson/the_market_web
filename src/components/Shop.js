@@ -1,43 +1,46 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../index.css';
-import FilterLink from '../containers/FilterLink'
-import {CategoryFilters} from '../actions'
+import Carousel from 'react-bootstrap/Carousel';
+import Salt_Sale from '../img/salt_banner.png';
+import Pepper from '../img/bell_pepper.png';
+import Pikachu from '../img/pikachu.png';
+import Ice from '../img/ice.png';
+import Carrots from '../img/carrot.png';
+import Cooler from '../img/cooler.png';
+import Shirt from '../img/shirt.png';
 
 const Shop = () => (
     <div className="col-lg-9 float-right shop">
-        <div id="carouselExampleIndicators" className="carousel slide my-4" data-ride="carousel">
-            <ol className="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-            </ol>
-            <div className="carousel-inner" role="listbox">
-                <div className="carousel-item active">
-                    <img className="d-block img-fluid" src="../img/lettuce.png" alt="First slide"/>
-                </div>
-                <div className="carousel-item">
-                    <img className="d-block img-fluid" src="../img/salt_banner.png" alt="Second slide"/>
-                </div>
-                <div className="carousel-item">
-                    <img className="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide"/>
-                </div>
-            </div>
-            <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span className="sr-only">Previous</span>
-            </a>
-            <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                <span className="sr-only">Next</span>
-            </a>
-        </div>
+        <Carousel className="my-4">
+            <Carousel.Item>
+                <img
+                    className="d-block w-100"
+                    src={Salt_Sale}
+                    alt="Salt Sale"
+                />
+            </Carousel.Item>
+            <Carousel.Item>
+                <img
+                    className="d-block w-100"
+                    src="http://placehold.it/900x350"
+                    alt="Salt Sale"
+                />
+            </Carousel.Item>
+            <Carousel.Item>
+                <img
+                    className="d-block w-100"
+                    src="http://placehold.it/900x350"
+                    alt="Salt Sale"
+                />
+            </Carousel.Item>
+        </Carousel>
 
         <div className="row">
 
             <div className="col-lg-4 col-md-6 mb-4">
                 <div className="card h-100">
-                    <a href="item.html"><img className="card-img-top" src="../img/bell_pepper.png" alt=""/></a>
+                    <a href="item.html"><img className="card-img-top" src={Pepper} alt=""/></a>
                     <div className="card-body">
                         <h4 className="card-title">
                             <a href="#">Red Bell Pepper</a>
@@ -53,7 +56,7 @@ const Shop = () => (
 
             <div className="col-lg-4 col-md-6 mb-4">
                 <div className="card h-100">
-                    <a href="#"><img className="card-img-top" src="../img/pikachu.png" alt=""/></a>
+                    <a href="#"><img className="card-img-top" src={Pikachu} alt=""/></a>
                     <div className="card-body">
                         <h4 className="card-title">
                             <a href="#">Pikachu Plush</a>
@@ -69,7 +72,7 @@ const Shop = () => (
 
             <div className="col-lg-4 col-md-6 mb-4">
                 <div className="card h-100">
-                    <a href="#"><img className="card-img-top" src="../img/ice.png" alt=""/></a>
+                    <a href="#"><img className="card-img-top" src={Ice} alt=""/></a>
                     <div className="card-body">
                         <h4 className="card-title">
                             <a href="#">Ice</a>
@@ -85,7 +88,7 @@ const Shop = () => (
 
             <div className="col-lg-4 col-md-6 mb-4">
                 <div className="card h-100">
-                    <a href="#"><img className="card-img-top" src="../img/carrot.png" alt=""/></a>
+                    <a href="#"><img className="card-img-top" src={Carrots} alt=""/></a>
                     <div className="card-body">
                         <h4 className="card-title">
                             <a href="#">Item Four</a>
@@ -103,7 +106,7 @@ const Shop = () => (
 
             <div className="col-lg-4 col-md-6 mb-4">
                 <div className="card h-100">
-                    <a href="#"><img className="card-img-top" src="../img/cooler.png" alt=""/></a>
+                    <a href="#"><img className="card-img-top" src={Cooler} alt=""/></a>
                     <div className="card-body">
                         <h4 className="card-title">
                             <a href="#">Item Five</a>
@@ -121,7 +124,7 @@ const Shop = () => (
 
             <div className="col-lg-4 col-md-6 mb-4">
                 <div className="card h-100">
-                    <a href="#"><img className="card-img-top" src="../img/shirt.png" alt=""/></a>
+                    <a href="#"><img className="card-img-top" src={Shirt} alt=""/></a>
                     <div className="card-body">
                         <h4 className="card-title">
                             <a href="#">Item Six</a>
