@@ -4,7 +4,6 @@ import {Navbar} from "react-bootstrap";
 import '../index.css';
 import '../App.css';
 import Logo from '../img/vector_logo.svg';
-import axios from 'axios';
 
 const Header = () => (
         <div className="container">
@@ -22,7 +21,7 @@ const Header = () => (
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">About</a>
+                            <a className="nav-link" onClick={Login}>About</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="#">Contact</a>
