@@ -62,9 +62,26 @@ export const register = (state, {username, email, password}) => {
     return Object.assign({}, state, { username, email, password })
 }
 
+export const setCategory = (state, {category}) => {
+    return Object.assign({}, state, {category})
+}
+
 /* Connect Reducers to Types */
 export const reducer = createReducer(initialState, {
     [Types.LOGIN]: login,
     [Types.LOGOUT]: logout,
     [Types.REGISTER]: register,
+    [Types.SET_CATEGORY]: setCategory,
+
 })
+
+    setCategory: ["category"],
+    searchItem: ["itemName"],
+    createVendor: ["name"],
+    addItem: ["name", "price", "description", "category"],
+    removeItem: ["itemId"],
+    addAddress: ["lineOne", "lineTwo", "city", "country", "postcode"],
+    removeAddress: ["addressId"],
+    addPayment: ["name", "number", "expiration"],
+    removePayment: ["paymentId"],
+    addReview: ["title", "text", "rating"],
