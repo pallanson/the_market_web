@@ -2,7 +2,7 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../index.css';
 import FilterLink from '../containers/FilterLink'
-import {CategoryFilters} from '../actions'
+import {CategoryFilters} from '../constants'
 
 const Categories = () => (
         <div className="col-lg-3 float-left">

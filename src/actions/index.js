@@ -2,36 +2,43 @@ import { createActions } from "reduxsauce/lib/reduxsauce";
 
 /* Action Types & Creators */
 const { Types, Creators } = createActions({
-    login: ["username", "password"],
-    register: ["username", "email", "password"],
-    setCategory: ["category"],
-    searchItem: ["itemName"],
-    createVendor: ["name"],
-    addItem: ["name", "price", "description", "category"],
-    removeItem: ["itemId"],
-    addAddress: ["lineOne", "lineTwo", "city", "country", "postcode"],
-    removeAddress: ["addressId"],
-    addPayment: ["name", "number", "expiration"],
-    removePayment: ["paymentId"],
-    addReview: ["title", "text", "rating"],
-
-    loginFailure: ["message"],
-    registerFailure: ["message"],
-    loginSuccess: null,
+    login: ["email", "password"],
+    register: ["email", "firstName", "lastName", "password"],
     logout: null,
-    registerSuccess: null,
-    userFailure: null,
+    getAddresses: null,
+    addAddress: ["name", "addressLineOne", "addressLineTwo", "city", "country", "postcode"],
+    editAddress: ["addressId", "name", "addressLineOne", "addressLineTwo", "city", "country", "postcode"],
+    removeAddress: ["addressId"],
+    getCart: null,
+    addToCart: ["itemId"],
+    removeFromCart: ["itemId"],
+    checkout: null,
+    getReviews: ["itemId"],
+    postReview: ["itemId", "title", "text", "rating"],
+    editReview: ["itemId", "title", "text", "rating"],
+    removeReview: ["itemId"],
+    updateRating: ["itemId", "rating"],
+    addPaymentOption: ["nameOnCard", "cardNumber", "expiryDate"],
+    getPaymentOptions: null,
+    getPaymentOption: ["paymentId"],
+    editPaymentOption: ["paymentId", "nameOnCard", "cardNumber", "expiryDate"],
+    deletePaymentOption: ["paymentId"],
+    getAllVendors: null,
+    getVendor: ["vendorId"],
+    getVendorByName: ["name"],
+    getStore: ["vendorId"],
+    createVendor: ["name"],
+    updateVendor: ["vendorId", "name"],
+    getAllItems: null,
+    getItem: ["itemId"],
+    getItemByName: ["name"],
+    createItem: ["name", "price", "description", "category", "vendorId"],
+    updateItem: ["itemId", "name", "price", "description", "category"],
+    deleteItem: ["itemId"],
+    setCategory: ["category"],
+    search: ["searchString"],
+    fetchUser: ["userId"]
 });
 
-export const MarketTypes = Types;
+export { Types };
 export default Creators
-
-/* Category Constants */
-export const CategoryFilters = {
-    SHOW_ALL: 'SHOW_ALL',
-    SHOW_GROCERIES: 'SHOW_GROCERIES',
-    SHOW_CLOTHING: 'SHOW_CLOTHING',
-    SHOW_TOYS: 'SHOW_TOYS',
-    SHOW_HOME_DECORATIONS: 'SHOW_HOME_DECORATIONS',
-    SHOW_BUILDING_MATERIAL: 'SHOW_BUILDING_MATERIAL'
-};
