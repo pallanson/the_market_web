@@ -1,29 +1,70 @@
-import { combineReducers } from "redux/es/redux"
-import {CategoryFilters, SET_CATEGORY} from "../actions";
+import Types from "../actions"
+import { createReducer } from "reduxsauce"
+import { CategoryFilters } from "../actions"
 
-/*
-    Default State Variables:
-    Category:
-    Login:
-    Cart:
- */
-
+/* Default State */
 const initialState = {
     category: CategoryFilters.SHOW_ALL,
+    loggedIn: false,
+    error: null,
+    username: null,
+    password: null,
+    email: null,
+    user: {
+        userId: 0,
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: ""
+    },
+    vendor: {
+        vendorId: 0,
+        name: "",
+        userId: 0,
+    },
+    searchString: "",
+    searchResults: [],
+    item: {
+        itemId: 0,
+        name: "",
+        price: 0,
+        description: "",
+        rating: 0,
+        category: "",
+        vendorId: 0
+    },
+};
 
+/* Selectors */
+
+
+/* Reducers */
+export const login = (state, { username, password }) => {
+    return Object.assign({}, state, { username, password })
 }
 
-function the_market(state = initialState, action) {
-    // TODO: Handle actions here
-    switch (action.type) {
-        case SET_CATEGORY:
-            return Object.assign({}, state, {
-                category: action.filter
-            });
-        default:
-            return state
-    }
+export const logout = (state) => {
+    return Object.assign({}, state, { loggedIn: false, user: {
+            userId: 0,
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: ""
+        },
+        vendor: {
+            vendorId: 0,
+            name: "",
+            userId: 0,
+        }, username: null, email: null, password: null})
 }
 
-export default combineReducers({
+export const register = (state, {username, email, password}) => {
+    return Object.assign({}, state, { username, email, password })
+}
+
+/* Connect Reducers to Types */
+export const reducer = createReducer(initialState, {
+    [Types.LOGIN]: login,
+    [Types.LOGOUT]: logout,
+    [Types.REGISTER]: register,
 })
