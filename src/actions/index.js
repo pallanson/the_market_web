@@ -12,7 +12,7 @@ const { Types, Creators } = createActions({
     getCart: null,
     addToCart: ["itemId"],
     removeFromCart: ["itemId"],
-    checkout: null,
+    checkout: ["addressId"],
     getReviews: ["itemId"],
     postReview: ["itemId", "title", "text", "rating"],
     editReview: ["itemId", "title", "text", "rating"],

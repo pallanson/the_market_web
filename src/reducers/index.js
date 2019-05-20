@@ -21,6 +21,7 @@ import {
 } from './cart'
 import {
     addPaymentOption,
+    getPaymentOptions,
     getPaymentOption,
     editPaymentOption,
     deletePaymentOption,
@@ -68,6 +69,7 @@ const {
     UPDATE_RATING,
     ADD_PAYMENT_OPTION,
     GET_PAYMENT_OPTION,
+    GET_PAYMENT_OPTIONS,
     EDIT_PAYMENT_OPTION,
     DELETE_PAYMENT_OPTION,
     GET_ALL_VENDORS,
@@ -121,6 +123,7 @@ export default createReducer(initialState, {
     [REMOVE_REVIEW]: removeReview,
     [UPDATE_RATING]: updateRating,
     [ADD_PAYMENT_OPTION]: addPaymentOption,
+    [GET_PAYMENT_OPTIONS]: getPaymentOption,
     [GET_PAYMENT_OPTION]: getPaymentOption,
     [EDIT_PAYMENT_OPTION]: editPaymentOption,
     [DELETE_PAYMENT_OPTION]: deletePaymentOption,
