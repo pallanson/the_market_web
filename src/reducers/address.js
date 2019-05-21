@@ -3,8 +3,8 @@ import { initialState } from '../constants'
 
 export const getAddresses = async (state = initialState) => {
     try {
-        const { token, currentUser } = state
-        const { data } = await get(`address/user/${currentUser.userId}`, token)
+        const { currentUser } = state
+        const { data } = await get(`address/user/${currentUser.userId}`)
         return {
             ...state,
             addresses: [ ...data ]
@@ -25,7 +25,6 @@ export const addAddress = async (state = initialState, {
     postcode
 }) => {
     try {
-        const { token } = state
         const { data } = await post(`address/add`, {
             name,
             addressLineOne,
@@ -33,7 +32,7 @@ export const addAddress = async (state = initialState, {
             city,
             country,
             postcode
-        }, token)
+        })
         return {
             ...state,
             addresses: [
@@ -50,9 +49,9 @@ export const addAddress = async (state = initialState, {
 }
 export const removeAddress = async (state = initialState, { addressId }) => {
     try {
-        const { token, currentUser } = state
-        await del(`address/user/${addressId}`, token)
-        const { data } = await get(`address/user/${currentUser.userId}`, token)
+        const { currentUser } = state
+        await del(`address/user/${addressId}`)
+        const { data } = await get(`address/user/${currentUser.userId}`)
         return {
             ...state,
             addresses: [ ...data ]
@@ -74,7 +73,7 @@ export const editAddress = async (state = initialState, {
     postcode
 }) => {
     try {
-        const { token, currentUser } = state
+        const { currentUser } = state
         await put(`address/${addressId}`, {
             name,
             addressLineOne,
@@ -82,8 +81,8 @@ export const editAddress = async (state = initialState, {
             city,
             country,
             postcode
-        }, token)
-        const { data } = await get(`address/user/${currentUser.userId}`, token)
+        })
+        const { data } = await get(`address/user/${currentUser.userId}`)
         return {
             ...state,
             addresses: [ ...data ]

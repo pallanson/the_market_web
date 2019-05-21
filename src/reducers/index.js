@@ -123,7 +123,7 @@ export default createReducer(initialState, {
     [REMOVE_REVIEW]: removeReview,
     [UPDATE_RATING]: updateRating,
     [ADD_PAYMENT_OPTION]: addPaymentOption,
-    [GET_PAYMENT_OPTIONS]: getPaymentOption,
+    [GET_PAYMENT_OPTIONS]: getPaymentOptions,
     [GET_PAYMENT_OPTION]: getPaymentOption,
     [EDIT_PAYMENT_OPTION]: editPaymentOption,
     [DELETE_PAYMENT_OPTION]: deletePaymentOption,

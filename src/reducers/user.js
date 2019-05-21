@@ -1,5 +1,6 @@
 import { get, post } from '../request'
 import { initialState } from '../constants'
+import auth from '../utils/auth';
 
 export const login = async (state = initialState, { email, password }) => {
     try {
@@ -8,8 +9,10 @@ export const login = async (state = initialState, { email, password }) => {
             password
         })
         const { token, userId } = res.data
-        const userRes = await get(`user/${userId}`, token)
+        auth.setToken(token, true)
+        const userRes = await get(`user/${userId}`)
         const { data: currentUser } = userRes
+        auth.setUserInfo(currentUser)
         return {
             ...state,
             currentUser,
@@ -28,12 +31,17 @@ export const login = async (state = initialState, { email, password }) => {
     }
 }
 
-export const logout = (state = initialState) => ({
-    ...state,
-    loggedIn: false,
-    password: null,
-    currentToken: null
-})
+export const logout = (state = initialState) => {
+    auth.clearAppStorage()
+    auth.clearToken()
+    auth.clearUserInfo()
+    return {
+        ...state,
+        loggedIn: false,
+        password: null,
+        currentToken: null
+    }
+}
 
 export const register = async (state = initialState, { email, firstName, lastName, password }) => {
     try {
@@ -66,7 +74,7 @@ export const register = async (state = initialState, { email, firstName, lastNam
 
 export const fetchUser = async (state = initialState, { userId }) => {
     try {
-        const res = await get(`user/${userId}`, state.token)
+        const res = await get(`user/${userId}`)
         const { data } = res
         return {
             ...state,

@@ -3,8 +3,7 @@ import { initialState } from '../constants'
 
 export const getReviews = async (state = initialState, {itemId}) => {
     try {
-        const { token } = state
-        const { data: reviews } = get(`item/${itemId}/reviews`, token)
+        const { data: reviews } = get(`item/${itemId}/reviews`)
         return {
             ...state,
             items: {
@@ -26,9 +25,8 @@ export const getReviews = async (state = initialState, {itemId}) => {
 export const postReview = async (state = initialState, 
 {itemId, title, text, rating}) => {
     try {
-        const { token } = state
-        await post(`item/${itemId}/review`, { title, text, rating }, token)
-        const { data: reviews } = get(`item/${itemId}/reviews`, token)
+        await post(`item/${itemId}/review`, { title, text, rating })
+        const { data: reviews } = get(`item/${itemId}/reviews`)
         return {
             ...state,
             items: {
@@ -49,9 +47,8 @@ export const postReview = async (state = initialState,
 }
 export const editReview = async (state = initialState, {itemId, title, text, rating}) => {
     try {
-        const { token } = state
-        await put(`item/${itemId}/review`, { title, text, rating }, token)
-        const { data: reviews } = get(`item/${itemId}/reviews`, token)
+        await put(`item/${itemId}/review`, { title, text, rating })
+        const { data: reviews } = get(`item/${itemId}/reviews`)
         return {
             ...state,
             items: {
@@ -72,9 +69,8 @@ export const editReview = async (state = initialState, {itemId, title, text, rat
 }
 export const removeReview = async (state = initialState, {itemId}) => {
     try {
-        const { token } = state
-        await del(`item/${itemId}/review`, token)
-        const { data: reviews } = get(`item/${itemId}/reviews`, token)
+        await del(`item/${itemId}/review`)
+        const { data: reviews } = get(`item/${itemId}/reviews`)
         return {
             ...state,
             items: {
@@ -95,7 +91,6 @@ export const removeReview = async (state = initialState, {itemId}) => {
 }
 export const updateRating = async (state = initialState, {itemId, rating}) => {
     try {
-        const { token } = state
         return {
             ...state
         }
