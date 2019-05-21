@@ -1,4 +1,4 @@
-export const API_HOSTNAME = 'localhost:5051/'
+export const API_HOSTNAME = 'http://ec2-18-130-174-127.eu-west-2.compute.amazonaws.com:5000/'
 export const CategoryFilters = {
     SHOW_ALL: 'SHOW_ALL',
     SHOW_GROCERIES: 'SHOW_GROCERIES',

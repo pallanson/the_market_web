@@ -37,6 +37,7 @@ const { Types, Creators } = createActions({
     deleteItem: ["itemId"],
     setCategory: ["category"],
     search: ["searchString"],
+    loadLocalUser: null,
     fetchUser: ["userId"]
 });
 

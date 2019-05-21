@@ -12,6 +12,12 @@ const makeSelectCurrentUser = () =>
         ({ currentUser }) => currentUser
     )
 
+const makeSelectIsAuthed = () =>
+    createSelector(
+        selectApp,
+        ({loggedIn}) => loggedIn
+    )
+
 const makeSelectLoading = () =>
     createSelector(
         selectApp,
@@ -83,6 +89,7 @@ const makeSelectVendors = () =>
 export {
     selectApp,
     selectRouter,
+    makeSelectIsAuthed,
     makeSelectAddresses,
     makeSelectCart,
     makeSelectCurrentCategory,

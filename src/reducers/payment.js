@@ -4,8 +4,7 @@ import { initialState } from '../constants'
 export const addPaymentOption = async (state = initialState, 
 {nameOnCard, cardNumber, expiryDate}) => {
     try {
-        const { token } = state
-        const { data } = await post(`payment`, {nameOnCard, cardNumber, expiryDate}, token)
+        const { data } = await post(`payment`, {nameOnCard, cardNumber, expiryDate})
         return {
             ...state,
             paymentMethods: [
@@ -22,8 +21,7 @@ export const addPaymentOption = async (state = initialState,
 }
 export const getPaymentOptions = async (state = initialState) => {
     try {
-        const { token } = state
-        const { data } = await get(`payment`, token)
+        const { data } = await get(`payment`)
         return {
             ...state,
             paymentMethods: [ ...data ]
@@ -38,8 +36,7 @@ export const getPaymentOptions = async (state = initialState) => {
 export const getPaymentOption = async (state = initialState, 
 {paymentId}) => {
     try {
-        const { token } = state
-        const { data } = await get(`payment/${paymentId}`, token)
+        const { data } = await get(`payment/${paymentId}`)
         return {
             ...state,
             paymentMethods: [ ...state.paymentMethods, data ]
@@ -54,9 +51,8 @@ export const getPaymentOption = async (state = initialState,
 export const editPaymentOption = async (state = initialState, 
 {paymentId, nameOnCard, cardNumber, expiryDate}) => {
     try {
-        const { token } = state
-        await put(`payment/${paymentId}`, {nameOnCard, cardNumber, expiryDate}, token)
-        const { data } = await get(`payment`, token)
+        await put(`payment/${paymentId}`, {nameOnCard, cardNumber, expiryDate})
+        const { data } = await get(`payment`)
         return {
             ...state,
             paymentMethods: [ ...data ]
@@ -71,9 +67,8 @@ export const editPaymentOption = async (state = initialState,
 export const deletePaymentOption = async (state = initialState,
 {paymentId}) => {
     try {
-        const { token } = state
-        await del(`payment/${paymentId}`, token)
-        const { data } = await get(`payment`, token)
+        await del(`payment/${paymentId}`)
+        const { data } = await get(`payment`)
         return {
             ...state,
             paymentMethods: [ ...data ]

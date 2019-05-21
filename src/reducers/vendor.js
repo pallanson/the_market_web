@@ -3,8 +3,7 @@ import { initialState } from '../constants'
 
 export const getAllVendors = async (state = initialState) => {
     try {
-        const { token } = state
-        const { data: vendors } = await get(`vendor`, token)
+        const { data: vendors } = await get(`vendor`)
         return {
             ...state,
             vendors
@@ -18,8 +17,7 @@ export const getAllVendors = async (state = initialState) => {
 }
 export const getVendor = async (state = initialState, { vendorId }) => {
     try {
-        const { token } = state
-        const { data: vendor } = await get(`vendor/id/${vendorId}`, token)
+        const { data: vendor } = await get(`vendor/id/${vendorId}`)
         return {
             ...state,
             vendors: [
@@ -36,8 +34,7 @@ export const getVendor = async (state = initialState, { vendorId }) => {
 }
 export const getVendorByName = async (state = initialState, { name }) => {
     try {
-        const { token } = state
-        const { data: vendor } = await get(`vendor/name/${name}`, token)
+        const { data: vendor } = await get(`vendor/name/${name}`)
         return {
             ...state,
             vendors: [
@@ -54,8 +51,7 @@ export const getVendorByName = async (state = initialState, { name }) => {
 }
 export const getStore = async (state = initialState, { vendorId }) => {
     try {
-        const { token } = state
-        const { data } = await get(`vendor/${vendorId}/store`, token)
+        const { data } = await get(`vendor/${vendorId}/store`)
         return {
             ...state,
             currentStore: [ ...data.items ]
@@ -69,8 +65,7 @@ export const getStore = async (state = initialState, { vendorId }) => {
 }
 export const createVendor = async (state = initialState, { name }) => {
     try {
-        const { token } = state
-        const { data } = await post(`vendor`, { name }, token)
+        const { data } = await post(`vendor`, { name })
         return {
             ...state,
             vendors: [
@@ -87,8 +82,7 @@ export const createVendor = async (state = initialState, { name }) => {
 }
 export const updateVendor = async (state = initialState, { vendorId, name }) => {
     try {
-        const { token } = state
-        const { data } = await put(`vendor`, { name }, token)
+        const { data } = await put(`vendor`, { name })
         return {
             ...state,
             vendors: [

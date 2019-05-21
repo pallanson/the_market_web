@@ -3,8 +3,7 @@ import { initialState } from '../constants'
 
 export const getCart = async (state = initialState) => {
     try {
-        const { token } = state
-        const { data } = await get(`cart`, token)
+        const { data } = await get(`cart`)
         return {
             ...state,
             cart: [ ...data.items ]
@@ -18,9 +17,8 @@ export const getCart = async (state = initialState) => {
 }
 export const addToCart = async (state = initialState, {itemId}) => {
     try {
-        const { token } = state
-        await put(`cart/add`, { itemId }, token)
-        const { data } = await get(`cart`, token)
+        await put(`cart/add`, { itemId })
+        const { data } = await get(`cart`)
         return {
             ...state,
             cart: [ ...data.items ]
@@ -34,8 +32,7 @@ export const addToCart = async (state = initialState, {itemId}) => {
 }
 export const removeFromCart = async (state = initialState, {itemId}) => {
     try {
-        const { token } = state
-        await put(`cart/remove`, { itemId }, token)
+        await put(`cart/remove`, { itemId })
     } catch(error) {
         return {
             ...state,
@@ -45,8 +42,7 @@ export const removeFromCart = async (state = initialState, {itemId}) => {
 }
 export const checkout = async (state = initialState, {addressId}) => {
     try {
-        const { token } = state
-        const { data: order } = await post(`cart/checkout`, { addressId }, token)
+        const { data: order } = await post(`cart/checkout`, { addressId })
         return {
             ...state,
             order
