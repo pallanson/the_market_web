@@ -37,9 +37,10 @@ export const logout = (state = initialState) => {
     auth.clearUserInfo()
     return {
         ...state,
+        currentUser: {},
         loggedIn: false,
         password: null,
-        currentToken: null
+        token: null
     }
 }
 

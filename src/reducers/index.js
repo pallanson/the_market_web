@@ -1,5 +1,6 @@
 import { Types } from "../actions"
 import { createReducer } from "reduxsauce"
+import auth from '../utils/auth'
 import { initialState } from "../constants"
 import {
     login,
@@ -86,7 +87,8 @@ const {
     DELETE_ITEM,
     SET_CATEGORY,
     FETCH_USER,
-    SEARCH
+    SEARCH,
+    LOAD_LOCAL_USER
 } = Types
 
 /* Selectors */
@@ -102,6 +104,17 @@ export const search = (state = initialState, {searchString}) => ({
     ...state,
     searchString
 })
+
+export const loadLocalUser = (state = initialState) => {
+    const token = auth.getToken()
+    const currentUser = auth.getUserInfo()
+    return {
+        ...state,
+        token,
+        currentUser,
+        loggedIn: token != null
+    }
+}
 
 /* Connect Reducers to Types */
 export default createReducer(initialState, {
@@ -140,5 +153,6 @@ export default createReducer(initialState, {
     [UPDATE_ITEM]: updateItem,
     [DELETE_ITEM]: deleteItem,
     [SET_CATEGORY]: setCategory,
-    [SEARCH]: search
+    [SEARCH]: search,
+    [LOAD_LOCAL_USER]: loadLocalUser
 })

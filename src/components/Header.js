@@ -27,12 +27,24 @@ export default ({isAuthed = false, currentUser = {}}) => (
                     <li className="nav-item">
                         <Link className="nav-link" to="/contact">Contact</Link>
                     </li>
-                    <li>
-                        <Link className="nav-link" to="/login">Login</Link>
-                    </li>
-                    <li>
-                        <Link className="nav-link" to="/register">Register</Link>
-                    </li>
+                    {
+                        isAuthed ? (
+                            <React.Fragment>
+                                <li>
+                                    <Link className="nav-link" to="/logout">Logout</Link>
+                                </li>
+                            </React.Fragment>
+                        ) : (
+                            <React.Fragment>
+                                <li>
+                                    <Link className="nav-link" to="/login">Login</Link>
+                                </li>
+                                <li>
+                                    <Link className="nav-link" to="/register">Register</Link>
+                                </li>
+                            </React.Fragment>
+                        )
+                    }
                 </ul>
             </div>
         </Navbar>
