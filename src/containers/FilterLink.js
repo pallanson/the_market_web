@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { setCategory } from '../actions'
+import actions from '../actions'
 import Link from '../components/Link'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -7,7 +7,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onClick: () => dispatch(setCategory(ownProps.filter))
+    onClick: () => dispatch(actions.setCategory(ownProps.filter))
 });
 
 export default connect(

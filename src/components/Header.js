@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Navbar} from "react-bootstrap";
 import '../index.css';
-import '../App.css';
+import '../containers/App/App.css';
 import Logo from '../img/vector_logo.svg';
 
 const Header = () => (
@@ -21,7 +21,7 @@ const Header = () => (
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" onClick={Login}>About</a>
+                            <a className="nav-link" onClick={() => {}}>About</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="#">Contact</a>
