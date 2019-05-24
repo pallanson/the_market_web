@@ -1,36 +1,46 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../index.css';
+import { Link } from 'react-router-dom';
 
-const LoginForm = () => (
-    <div className="container">
-        <div class="form-group row">
-            <label for="email_address" class="col-md-4 col-form-label text-md-right">E-Mail</label>
-            <div class="col-md-6">
-                <input type="text" id="email_address" class="form-control" name="email-address" required autofocus/>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
-            <div class="col-md-6">
-                <input type="password" id="password" class="form-control" name="password" required/>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-md-6 offset-md-4">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="remember"/>
-                        Remember Me
-                    </label>
+export default class LoginForm extends React.Component {
+    state = {
+        email: '',
+        password: ''
+    }
+
+    handleInputChange = (event) => {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
+    }
+
+    render() {
+        const { login } = this.props
+        const { email, password } = this.state
+        return (<div className="container">
+            <form onSubmit={evt => login(evt, email, password)}>
+                <div className="form-group row">
+                    <label htmlFor="email" className="col-md-4 col-form-label text-md-right">E-Mail</label>
+                    <div className="col-md-6">
+                        <input onChange={this.handleInputChange} type="text" id="email" className="form-control" name="email" required autoFocus/>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-8 offset-md-4">
-            <button type="submit" class="btn btn-primary"> Register</button>
-            <a href="#" class="btn btn-link"> Forgot Your Password? </a>
-        </div>
-    </div>
-);
-
-export default LoginForm;
+                <div className="form-group row">
+                    <label htmlFor="password" className="col-md-4 col-form-label text-md-right">Password</label>
+                    <div className="col-md-6">
+                        <input onChange={this.handleInputChange} type="password" id="password" className="form-control" name="password" required/>
+                    </div>
+                </div>
+                <div className="col-md-8 offset-md-4">
+                    <button type="submit" className="btn btn-primary">Login</button>
+                    <Link to="/register" className="btn btn-link"> Create new account </Link>
+                </div>
+            </form>
+        </div>)
+    }
+}

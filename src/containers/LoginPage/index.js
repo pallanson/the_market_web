@@ -1,21 +1,47 @@
 import { Redirect } from 'react-router-dom'
-import React from 'react'
+import React, { useEffect, memo } from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+import LoginForm from '../../components/LoginForm'
+import Actions from '../../actions'
+import { makeSelectIsAuthed } from '../../selectors'
+import { createStructuredSelector } from 'reselect'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../index.css';
 
-export default (props) => {
-    const isAuthed = false
+const LoginPage = ({login, authed, location}) => {
 
-    return !isAuthed ? (
+    return !authed ? (
         <div className="container" align="center">
-            <h3>Not Found ;(</h3>
+          <LoginForm login={login} />
         </div>
     ) : (
         <Redirect
           to={{
             pathname: '/',
-            state: { from: props.location },
+            state: { from: location },
           }}
         />
     )
 }
+const mapStateToProps = createStructuredSelector({
+  authed: makeSelectIsAuthed(),
+})
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login: (evt, email, password) => {
+      console.log(evt)
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      console.log(email, password)
+      dispatch(Actions.login(email, password))
+    }
+  }
+}
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
+
+export default compose(withConnect, memo)(LoginPage);
