@@ -35,7 +35,7 @@ const App = ({ loadUser, authed, user }) => {
             <Route path="/category/:categoryName" component={CategoryPage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/register" component={RegisterPage} />
-            <Route path="/item/:itemId" component={ItemPage} />
+            <Route path="/item/" component={ItemPage} />
             <PrivateRoute path="/logout" component={LogoutPage} />
             <PrivateRoute path="/checkout" component={CheckoutPage} />
             <PrivateRoute path="/cart" component={CartPage} />

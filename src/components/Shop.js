@@ -10,6 +10,7 @@ import Ice from '../img/ice.png';
 import Carrots from '../img/carrot.png';
 import Cooler from '../img/cooler.png';
 import Shirt from '../img/shirt.png';
+import { Link } from "react-router-dom";
 
 // Map array
 function ItemList(props) {
@@ -20,7 +21,7 @@ function ItemList(props) {
                     <a href="#"><img id="img" className="card-img-top" src={Cooler} alt=""/></a>
                     <div className="card-body">
                         <h4 className="card-title">
-                            <a id="title" href="#">{item.title}</a>
+                           <Link to="/item">{item.title}</Link>
                         </h4>
                         <h5 id="price">{item.price}</h5>
                         <p id="description" className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
