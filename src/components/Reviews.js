@@ -4,50 +4,35 @@ import '../index.css';
 import Modal from 'react-awesome-modal';
 import {Link} from "react-router-dom";
 
-const reviews = [
-    {
-        id: 1,
-        title: "This thing sucks!",
-        text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,\n" +
-            "                    similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat\n" +
-            "                    laborum. Sequi mollitia, necessitatibus quae sint natus.",
-        rating: "1.5",
-        userName: "Martin Huynh"
-    },
-    {
-        id: 2,
-        title: "I love this thing!",
-        text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,\n" +
-            "                    similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat\n" +
-            "                    laborum. Sequi mollitia, necessitatibus quae sint natus.",
-        rating: "5",
-        userName: "Fernando Valarino"
-    },
-    {
-        id: 3,
-        title: "Meh",
-        text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,\n" +
-            "                    similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat\n" +
-            "                    laborum. Sequi mollitia, necessitatibus quae sint natus.",
-        rating: "2.5",
-        userName: "Philip Allanson"
-    },
-];
-
 // Import Reviews to Cards
-function ReviewList(props) {
-    const reviews = props.reviews;
-    const listReviews = reviews.map((review) => (
-            <div className="card-body">
-                <h3>{review.title}</h3>
-                <small className="text-muted">Posted by {review.userName} on 3/1/17</small>
-                <strong className="float-right">{review.rating} / 5</strong>
-                <p>{review.text}</p>
-            </div>
+function ReviewList({ reviews = [], users = {}, getUser = () => {} }) {
+    if (reviews.length === 0) {
+        return (
+            <p>No reviews yet.</p>
         )
-    );
+    }
+    const getName = (userId) => {
+        if (users[userId]) {
+            return `${users[userId].firstName} ${users[userId].lastName}`
+        } else {
+            getUser(userId)
+        }
+        return 'Loading...'
+    }
+    
     return (
-        <ul>{listReviews}</ul>
+        <ul>
+        {
+            reviews.map((review) => (
+                <div className="card-body">
+                    <h3>{review.title}</h3>
+                    <small className="text-muted">Posted by {getName(review.userId)}</small>
+                    <strong className="float-right">{review.rating} / 5</strong>
+                    <p>{review.text}</p>
+                </div>
+            ))
+        }
+    </ul>
     )
 }
 
@@ -69,7 +54,7 @@ export default class Reviews extends React.Component {
     }
 
     render() {
-        const { addReview } = this.props
+        const { addReview, reviews, authed, error, users, getUser } = this.props
         const { title, text, rating } = this.state
         return (
             <div className="container">
@@ -78,13 +63,15 @@ export default class Reviews extends React.Component {
                         Product Reviews
                     </div>
                     <div className="card-body">
-                        <ReviewList reviews={reviews}/>
+                        <ReviewList reviews={reviews} getUser={getUser} users={users}/>
                     </div>
                 </div>
 
                 <div className="card card-outline-secondary my-4 px-5 py-3">
+                    { authed ? (
                     <form onSubmit={evt => addReview(evt, title, text, rating )}>
                         <h1 className="mb-3">Add Review</h1>
+                        { error && (<p>{ error }</p>) }
                         <div className="form-group row">
                             <label htmlFor="title" className="col-md-2 col-form-label text-md-right">Title</label>
                             <div className="col-md-10">
@@ -107,6 +94,7 @@ export default class Reviews extends React.Component {
                             <button type="submit" className="btn btn-primary float-right">Add</button>
                         </div>
                     </form>
+                    ) : <p>You must be logged in to review an item</p> }
                 </div>
                 <br/>
             </div>

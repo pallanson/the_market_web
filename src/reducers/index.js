@@ -10,6 +10,7 @@ const {
     CLEAR_ERROR,
     LOGOUT,
     SET_CATEGORY,
+    SET_CURRENT_ITEM,
     SEARCH,
     LOAD_LOCAL_USER
 } = Types
@@ -18,6 +19,11 @@ const {
 export const setCategory = (state = initialState, {category: currentCategory}) => ({
     ...state,
     currentCategory
+})
+
+export const setCurrentItem = (state = initialState, {itemId: currentItem}) => ({
+    ...state,
+    currentItem
 })
 
 export const search = (state = initialState, {searchString}) => ({
@@ -76,6 +82,7 @@ export const clearError = (state = initialState) => ({
 /* Connect Reducers to Types */
 export default createReducer(initialState, {
     [SET_CATEGORY]: setCategory,
+    [SET_CURRENT_ITEM]: setCurrentItem,
     [SEARCH]: search,
     [LOAD_LOCAL_USER]: loadLocalUser,
     [API_SUCCESS]: apiSuccess,

@@ -36,6 +36,7 @@ const { Types, Creators } = createActions({
     updateItem: ["itemId", "name", "price", "description", "category"],
     deleteItem: ["itemId"],
     setCategory: ["category"],
+    setCurrentItem: ["itemId"],
     search: ["searchString"],
     loadLocalUser: null,
     fetchUser: ["userId"],

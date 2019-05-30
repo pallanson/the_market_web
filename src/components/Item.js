@@ -4,7 +4,7 @@ import '../index.css';
 import Cooler from "../img/cooler.png";
 import { Link } from "react-router-dom";
 
-const ratingStr = (rating = 0) => {
+export const ratingStr = (rating = 0) => {
     let stars = 5
     let str = ''
     while(stars-- > 0) {
