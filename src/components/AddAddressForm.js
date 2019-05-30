@@ -11,7 +11,6 @@ export default class AddAddressForm extends React.Component {
         city: '',
         country: '',
         postcode: '',
-        userId: '',
     };
 
     handleInputChange = (event) => {
@@ -26,11 +25,11 @@ export default class AddAddressForm extends React.Component {
 
     render() {
         const {addAddress} = this.props
-        const {name, addressLineOne, addressLineTwo, city, country, postcode, userId} = this.state
+        const {name, addressLineOne, addressLineTwo, city, country, postcode} = this.state
         return (
             <div className="container">
                 <div className="register-form">
-                    <form onSubmit={evt => addAddress(evt, name, addressLineOne, addressLineTwo, city, country, postcode, userId)}>
+                    <form onSubmit={evt => addAddress(evt, name, addressLineOne, addressLineTwo, city, country, postcode)}>
                         <h1>Add New Address</h1>
                         <div className="form-group row">
                             <label htmlFor="name" className="col-md-3 col-form-label text-md-right">Name</label>

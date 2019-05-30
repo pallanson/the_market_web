@@ -8,7 +8,6 @@ export default class AddPaymentForm extends React.Component {
         nameOnCard: '',
         cardNumber: '',
         expiryDate: '',
-        userId: ''
     };
 
     handleInputChange = (event) => {
@@ -22,12 +21,12 @@ export default class AddPaymentForm extends React.Component {
     }
 
     render() {
-        const {addPayment} = this.props
-        const {nameOnCard, cardNumber, expiryDate, userId} = this.state
+        const {addPaymentOption} = this.props
+        const {nameOnCard, cardNumber, expiryDate} = this.state
         return (
             <div className="container">
                 <div className="register-form">
-                    <form onSubmit={evt => addPayment(evt, nameOnCard, cardNumber, expiryDate, userId)}>
+                    <form onSubmit={evt => addPaymentOption(evt, nameOnCard, cardNumber, expiryDate)}>
                         <h1>Add Payment Information</h1>
                         <div className="form-group row">
                             <label htmlFor="nameOnCard" className="col-md-3 col-form-label text-md-right">Name on

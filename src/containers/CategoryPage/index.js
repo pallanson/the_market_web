@@ -9,6 +9,7 @@ import { createStructuredSelector } from 'reselect'
 import { makeSelectItemsInCategory, makeSelectItemsPerPage, makeSelectIsAuthed } from '../../selectors'
 import Categories from "../../components/Categories"
 import Shop from "../../components/Shop"
+import BannerCarousel from "../../components/BannerCarousel";
 
 const getCategoryName = (category) => {
     const constant = Object.keys(CategoryFilters).find(cat => CategoryFilters[cat] === category)

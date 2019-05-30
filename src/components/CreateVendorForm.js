@@ -19,11 +19,11 @@ export default class CreateVendorForm extends React.Component {
     }
 
     render() {
-        const {register} = this.props
+        const {createVendor} = this.props
         const {name} = this.state
         return (
             <div className="register-form">
-                <form onSubmit={evt => register(evt, name)}>
+                <form onSubmit={evt => createVendor(evt, name)}>
                     <h1>Create a New Vendor Account</h1>
                     <div className="form-group row">
                         <label htmlFor="name" className="col-md-4 col-form-label text-md-right">Vendor Name</label>
