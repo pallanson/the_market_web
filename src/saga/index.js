@@ -249,17 +249,9 @@ function * get_reviews(action) {
     const {itemId} = action
     yield put(apiRequest(`GET: item/${itemId}/reviews`, action))
     try {
-        const items = yield select(makeSelectItems)
         const { data: reviews } = yield call(get, `item/${itemId}/reviews`)
         
         yield put(apiSuccess({
-            items: {
-                ...items,
-                [itemId]: {
-                    ...items[itemId],
-                    reviews
-                }
-            },
             currentReviews: [...reviews]
         }))
     } catch(error) {
@@ -268,23 +260,16 @@ function * get_reviews(action) {
 }
 function * post_review(action) {
     const {itemId, title, text, rating} = action
-    yield put(apiRequest(`GET: item/${itemId}/reviews`, action))
+    yield put(apiRequest(`POST: item/${itemId}/reviews`, action))
     try {
-        const items = yield select(makeSelectItems)
         yield call(post, `item/${itemId}/review`, { title, text, rating })
         const { data: reviews } = yield call(get, `item/${itemId}/reviews`)
         
         yield put(apiSuccess({
-            items: {
-                ...items,
-                [itemId]: {
-                    ...items[itemId],
-                    reviews
-                }
-            },
             currentReviews: [...reviews]
         }))
     } catch(error) {
+        console.error(error)
         yield put(apiFailure(error.response.data.message))
     }
 }
@@ -292,18 +277,10 @@ function * edit_review(action) {
     const {itemId, title, text, rating} = action
     yield put(apiRequest(`GET: item/${itemId}/reviews`, action))
     try {
-        const items = yield select(makeSelectItems)
         yield call(putReq, `item/${itemId}/review`, { title, text, rating })
         const { data: reviews } = yield call(get, `item/${itemId}/reviews`)
         
         yield put(apiSuccess({
-            items: {
-                ...items,
-                [itemId]: {
-                    ...items[itemId],
-                    reviews
-                }
-            },
             currentReviews: [...reviews]
         }))
     } catch(error) {
@@ -314,18 +291,10 @@ function * remove_review(action) {
     const {itemId} = action
     yield put(apiRequest(`GET: item/${itemId}/reviews`, action))
     try {
-        const items = yield select(makeSelectItems)
         yield call(del, `item/${itemId}/review`)
         const { data: reviews } = yield call(get, `item/${itemId}/reviews`)
         
         yield put(apiSuccess({
-            items: {
-                ...items,
-                [itemId]: {
-                    ...items[itemId],
-                    reviews
-                }
-            },
             currentReviews: [...reviews]
         }))
     } catch(error) {
@@ -525,9 +494,12 @@ function * get_item(action) {
     yield put(apiRequest(`GET: item/${itemId}`, action))
     try {
         const { data: item } = yield call(get, `item/${itemId}`)
-        
+        const items = yield select(makeSelectItems)
         yield put(apiSuccess({
-            currentItem: item
+            items: {
+                ...items,
+                [item.itemId]: item
+            }
         }))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
@@ -592,7 +564,7 @@ function * fetch_user(action) {
     const {userId} = action
     yield put(apiRequest(`GET: user/${userId}`, action))
     try {
-        const users = yield select(makeSelectUsers)
+        const users = yield select(makeSelectUsers())
         const res = yield call(get, `user/${userId}`)
         const { data } = res
         yield put(apiSuccess({

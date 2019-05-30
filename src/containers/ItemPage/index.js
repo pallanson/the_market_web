@@ -1,79 +1,107 @@
-import React from 'react'
+import React, { useEffect, useState, memo } from 'react'
+import Actions from '../../actions'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../index.css';
+import { ratingStr } from '../../components/Item'
 import Reviews from '../../components/Reviews';
 import {Link} from "react-router-dom";
-import Pepper from '../../img/bell_pepper.png';
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import { 
+    makeSelectCurrentItem,
+    makeSelectError,
+    makeSelectIsAuthed,
+    makeSelectCurrentReviews,
+    makeSelectUsers
+} from '../../selectors';
+import Categories from "../../components/Categories"
 
-const reviews = [
-    {
-        id: 1,
-        title: "This thing sucks!",
-        text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,\n" +
-            "                    similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat\n" +
-            "                    laborum. Sequi mollitia, necessitatibus quae sint natus.",
-        rating: "1.5",
-        userName: "Martin Huynh"
-    },
-    {
-        id: 2,
-        title: "I love this thing!",
-        text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,\n" +
-            "                    similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat\n" +
-            "                    laborum. Sequi mollitia, necessitatibus quae sint natus.",
-        rating: "5",
-        userName: "Fernando Valarino"
-    },
-    {
-        id: 3,
-        title: "Meh",
-        text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,\n" +
-            "                    similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat\n" +
-            "                    laborum. Sequi mollitia, necessitatibus quae sint natus.",
-        rating: "2.5",
-        userName: "Philip Allanson"
-    },
-];
-
-// Import Reviews to Cards
-function ReviewList(props) {
-    const reviews = props.reviews;
-    const listReviews = reviews.map((review) => (
-            <div className="card-body">
-                <h3>{review.title}</h3>
-                <small className="text-muted">Posted by {review.userName} on 3/1/17</small>
-                <p>{review.text}</p>
-            </div>
-        )
-    );
+export const ItemPage = ({ 
+    item = {},
+    match,
+    setItem,
+    getUser,
+    reviews = [],
+    getReviews,
+    error,
+    addReview,
+    authed,
+    addToCart,
+    users
+}) => {
+    const {
+        name,
+        imageUrl,
+        price,
+        description,
+        rating
+    } = item
+    const { itemId } = match.params
+    const [fetched, setFetched] = useState(null)
+    useEffect(() => {
+        if (fetched !== itemId) {
+            setItem(parseInt(itemId))
+            setFetched(itemId)
+            getReviews(itemId)
+        }
+    }, [fetched, setFetched, getReviews, setItem, itemId])
     return (
-        <ul>{listReviews}</ul>
+        <div className="container mb-xl-5">
+            <Categories/>
+            <div className="col-lg-9 mr-auto ml-auto">
+                <div className="card mt-4">
+                    <img className="card-img-top img-fluid" src={imageUrl} alt=""/>
+                    <div className="card-body">
+                        <h3 className="card-title">{ name }</h3>
+                        <h4>${price}</h4>
+                        <p className="card-text">{ description }</p>
+                        <Link to="/cart">
+                            <button className="btn_add" onClick={addToCart}>Add to Cart</button>
+                        </Link>
+                        <span className="text-warning">{ratingStr(rating)}</span>
+                        {rating} stars
+                    </div>
+                </div>
+                <Reviews 
+                    reviews={reviews}
+                    error={error}
+                    users={users}
+                    authed={authed}
+                    getUser={getUser}
+                    addReview={(evt, title, text, rating) => {
+                        evt && evt.preventDefault();
+                        addReview(itemId, title, text, rating)
+                    }}
+                />
+            </div>
+        </div>
     )
 }
 
-export default () => (
-    <div className="container mb-xl-5">
-        <div className="col-lg-9 mr-auto ml-auto">
-            <div className="card mt-4">
-                <img className="card-img-top img-fluid" src={Pepper} alt=""/>
-                <div className="card-body">
-                    <h3 className="card-title">Red Bell Pepper</h3>
-                    <h4>39kr/kg</h4>
-                    <p className="card-text">Red bell peppers are medium to large in size, averaging 5-8 centimeters
-                        in diameter and 5-12 centimeters in length, and are rounded, square, and blocky in shape
-                        with 3-4 lobes and a thick green stem. The smooth skin is firm, glossy, and bright red, and
-                        underneath the skin, the pale red flesh is thick, juicy, crisp, and succulent. There is also
-                        a central, hollow cavity that contains very small, flat and bitter cream-colored seeds and a
-                        thin, spongy white to pale red membrane. Red bell peppers have an aqueous crunch and are
-                        sweet with a fruity flavor. </p>
-                    <Link to="/cart">
-                        <button className="btn_add" onClick="">Add to Cart</button>
-                    </Link>
-                    <span className="text-warning">&#9733; &#9733; &#9733; &#9733; &#9733; </span>
-                    5.0 stars
-                </div>
-            </div>
-            <Reviews/>
-        </div>
-    </div>
-);
+const mapStateToProps = createStructuredSelector({
+    item: makeSelectCurrentItem(),
+    reviews: makeSelectCurrentReviews(),
+    error: makeSelectError(),
+    authed: makeSelectIsAuthed(),
+    users: makeSelectUsers()
+})
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setItem: (itemId) => dispatch(Actions.setCurrentItem(itemId)),
+        getUser: (userId) => dispatch(Actions.fetchUser(userId)),
+        getReviews: (itemId) => dispatch(Actions.getReviews(itemId)),
+        addReview: (itemId, title, text, rating) => {
+            dispatch(Actions.postReview(itemId, title, text, rating))
+        },
+        addToCart: () => {}
+    }
+}
+
+const withConnect = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)
+
+export default compose(withConnect, memo)(ItemPage);

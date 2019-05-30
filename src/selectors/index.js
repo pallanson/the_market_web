@@ -11,6 +11,8 @@ const makeSelectCurrentUser = () =>
         ({ currentUser }) => currentUser
     )
 
+
+
 const makeSelectIsAuthed = () =>
     createSelector(
         selectApp,
@@ -41,6 +43,12 @@ const makeSelectItems = () =>
         ({items}) => items 
     )
 
+const makeSelectCurrentReviews = () =>
+    createSelector(
+        selectApp,
+        ({currentReviews}) => currentReviews
+    )
+
 const makeSelectItemsArray = () =>
     createSelector(
         selectApp,
@@ -60,6 +68,13 @@ const makeSelectItemsInCategory = () =>
         (items, currentCategory) => {
             return items.filter(item => item.category.toLowerCase() === currentCategory)
         }
+    )
+
+const makeSelectCurrentItem = () =>
+    createSelector(
+        makeSelectItems(),
+        selectApp,
+        (items, {currentItem}) => items[currentItem]
     )
 
 const makeSelectSearchString = () => 
@@ -117,6 +132,8 @@ export {
     makeSelectError,
     makeSelectItems,
     makeSelectItemsArray,
+    makeSelectCurrentItem,
+    makeSelectCurrentReviews,
     makeSelectItemsInCategory,
     makeSelectLoading,
     makeSelectPaymentMethods,
