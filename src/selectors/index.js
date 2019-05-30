@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect'
+import { createSelector, createSelectorCreator } from 'reselect'
 import { initialState } from '../constants'
 
 const selectApp = state => state.app || initialState
@@ -41,6 +41,12 @@ const makeSelectItems = () =>
         ({items}) => items 
     )
 
+const makeSelectItemsArray = () =>
+    createSelector(
+        selectApp,
+        ({items}) => Object.values(items)
+    )
+
 const makeSelectCurrentCategory = () =>
     createSelector(
         selectApp,
@@ -49,16 +55,11 @@ const makeSelectCurrentCategory = () =>
 
 const makeSelectItemsInCategory = () =>
     createSelector(
-        selectApp,
-        ({currentCategory}) => currentCategory,
-        ({ items }, currentCategory) => Object.values(items).filter(item => item.category === currentCategory)
-    )
-
-const makeSelectSearchResults = () =>
-    createSelector(
-        selectApp,
-        ({searchString}) => searchString,
-        ({ items }, searchString) => Object.values(items).filter(item => item.name.includes(searchString))
+        makeSelectItemsArray(),
+        makeSelectCurrentCategory(),
+        (items, currentCategory) => {
+            return items.filter(item => item.category.toLowerCase() === currentCategory)
+        }
     )
 
 const makeSelectSearchString = () => 
@@ -66,6 +67,20 @@ const makeSelectSearchString = () =>
         selectApp,
         ({searchString}) => searchString 
     )
+
+const makeSelectItemsPerPage = () =>
+    createSelector(
+        selectApp,
+        ({itemsPerPage}) => itemsPerPage
+    )
+
+const makeSelectSearchResults = () =>
+    createSelector(
+        makeSelectItemsArray(),
+        makeSelectSearchString(),
+        (items, searchString) => items.filter(item => item.name.includes(searchString))
+    )
+
 
 const makeSelectAddresses = () => 
     createSelector(
@@ -101,9 +116,11 @@ export {
     makeSelectCurrentUser,
     makeSelectError,
     makeSelectItems,
+    makeSelectItemsArray,
     makeSelectItemsInCategory,
     makeSelectLoading,
     makeSelectPaymentMethods,
+    makeSelectItemsPerPage,
     makeSelectSearchResults,
     makeSelectSearchString,
     makeSelectUsers,

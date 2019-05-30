@@ -12,7 +12,7 @@ export const LogoutPage = ({logout}) => {
     useEffect(() => {
         // Load user from local storage, if available
         logout()
-    }, []);
+    }, [logout]);
     return (
         <Redirect
           to="/"

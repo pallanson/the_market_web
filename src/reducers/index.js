@@ -15,9 +15,9 @@ const {
 } = Types
 
 /* Reducers */
-export const setCategory = (state = initialState, {category}) => ({
+export const setCategory = (state = initialState, {category: currentCategory}) => ({
     ...state,
-    category
+    currentCategory
 })
 
 export const search = (state = initialState, {searchString}) => ({

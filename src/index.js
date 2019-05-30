@@ -19,7 +19,7 @@ if (process.env.NODE_ENV !== 'production' && typeof window === 'object') {
 }
 const sagaMiddleware = createSagaMiddleware()
 const history = createBrowserHistory()
-const middlewares = [logger, routerMiddleware(history), sagaMiddleware]
+const middlewares = [routerMiddleware(history), sagaMiddleware]
 const rootReducer = combineReducers({
     app: appReducer,
     router: connectRouter(history)
