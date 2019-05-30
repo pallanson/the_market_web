@@ -123,7 +123,6 @@ export default class Reviews extends React.Component {
             getUser 
         } = props
         const { title, text, rating } = state
-        console.log(currentReview)
         return (
             <div className="container">
                 <div className="card card-outline-secondary my-4">

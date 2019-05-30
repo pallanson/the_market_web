@@ -125,7 +125,7 @@ const makeSelectMyReview = () =>
     createSelector(
         makeSelectCurrentReviews(),
         makeSelectCurrentUser(),
-        (reviews, currentUser) => reviews.find(review => review.userId === currentUser.userId)
+        (reviews = [], currentUser) => reviews.find(review => currentUser && review.userId === currentUser.userId)
     )
 
 export {

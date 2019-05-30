@@ -8,14 +8,14 @@ import EditProfileForm from "../../components/EditProfileForm";
 export default (props) => {
     const isAuthed = auth.getToken() != null
 
-    return !isAuthed ? (
+    return isAuthed ? (
         <div className="container" align="center">
             <EditProfileForm register={props} />
         </div>
     ) : (
         <Redirect
             to={{
-                pathname: '/account',
+                pathname: '/',
                 state: { from: props.location },
             }}
         />
