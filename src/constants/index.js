@@ -1,11 +1,11 @@
 export const API_HOSTNAME = 'http://ec2-18-130-174-127.eu-west-2.compute.amazonaws.com:5000/'
 export const CategoryFilters = {
-    SHOW_ALL: 'SHOW_ALL',
-    SHOW_GROCERIES: 'SHOW_GROCERIES',
-    SHOW_CLOTHING: 'SHOW_CLOTHING',
-    SHOW_TOYS: 'SHOW_TOYS',
-    SHOW_HOME_DECORATIONS: 'SHOW_HOME_DECORATIONS',
-    SHOW_BUILDING_MATERIAL: 'SHOW_BUILDING_MATERIAL'
+    SHOW_ALL: 'all',
+    SHOW_GROCERIES: 'groceries',
+    SHOW_CLOTHING: 'clothing',
+    SHOW_TOYS: 'toys',
+    SHOW_HOME_DECORATIONS: 'decorations',
+    SHOW_BUILDING_MATERIAL: 'material'
 };
 export const initialState = {
     currentUser: null,

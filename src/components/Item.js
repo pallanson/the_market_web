@@ -2,23 +2,48 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../index.css';
 import Cooler from "../img/cooler.png";
+import { Link } from "react-router-dom";
 
-const Item = () => (
-    <div className="col-lg-4 col-md-6 mb-4">
-        <div className="card h-100">
-            <a href="#"><img id="img" className="card-img-top" src={Cooler} alt=""/></a>
-            <div className="card-body">
-                <h4 className="card-title">
-                    <a id="title" href="#">Item Five</a>
-                </h4>
-                <h5 id="price">$24.99</h5>
-                <p id="description" className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                    aspernatur! Lorem ipsum dolor sit amet.</p>
-            </div>
-            <div className="card-footer">
-                <small className="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                <button className="btn_purchase" onClick="">Purchase</button>
+const ratingStr = (rating = 0) => {
+    let stars = 5
+    let str = ''
+    while(stars-- > 0) {
+        if (rating-- > 0) {
+            str += '★ '
+        } else {
+            str += '☆ '
+        }
+    }
+    return str.trim()
+} 
+
+const Item = ({item, onClick = () => {}}) => {
+    const {
+        name,
+        rating,
+        itemId,
+        price,
+        description,
+        imageUrl
+    } = item
+    return (
+        <div className="col-lg-4 col-md-6 mb-4">
+            <div className="card h-100">
+                <Link to={`item/${itemId}`}><img id="img" className="card-img-top" src={imageUrl ? imageUrl : Cooler} alt=""/></Link>
+                <div className="card-body">
+                    <h4 className="card-title">
+                        <Link id="title" to={`item/${itemId}`}>{ name }</Link>
+                    </h4>
+                    <h5 id="price">${price}</h5>
+                    <p id="description" className="card-text">{ description }</p>
+                </div>
+                <div className="card-footer">
+                    <small className="text-muted">{ ratingStr(rating) }</small>
+                    <button className="btn_purchase" onClick={() => onClick(item)}>Purchase</button>
+                </div>
             </div>
         </div>
-    </div>
-);
+    )
+}
+
+export default Item

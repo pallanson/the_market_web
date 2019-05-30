@@ -20,12 +20,14 @@ import RegisterPage from '../RegisterPage'
 import PrivateRoute from '../PrivateRoute'
 import NotFound from '../NotFound'
 
-const App = ({ loadUser, authed, user }) => {
+const App = ({ loadUser, loadItems, authed, user }) => {
 
     useEffect(() => {
         // Load user from local storage, if available
         loadUser()
-    }, []);
+        // Load all items
+        loadItems()
+    }, [loadUser, loadItems]);
     
     return (
     <div>
@@ -35,7 +37,7 @@ const App = ({ loadUser, authed, user }) => {
             <Route path="/category/:categoryName" component={CategoryPage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/register" component={RegisterPage} />
-            <Route path="/item/" component={ItemPage} />
+            <Route path="/item/:itemId" component={ItemPage} />
             <PrivateRoute path="/logout" component={LogoutPage} />
             <PrivateRoute path="/checkout" component={CheckoutPage} />
             <PrivateRoute path="/cart" component={CartPage} />
@@ -52,7 +54,8 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadUser: () => dispatch(Actions.loadLocalUser())
+        loadUser: () => dispatch(Actions.loadLocalUser()),
+        loadItems: () => dispatch(Actions.getAllItems())
     }
 }
 

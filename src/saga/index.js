@@ -510,8 +510,11 @@ function * get_all_items(action) {
     try {
         const { data: items } = yield call(get, `item`)
         
-            yield put(apiSuccess({
-            items
+        yield put(apiSuccess({
+            items: items.reduce((obj, item) => {
+                obj[item.itemId] = item
+                return obj
+            }, {})
         }))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))

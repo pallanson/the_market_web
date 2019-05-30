@@ -13,33 +13,13 @@ import Shirt from '../img/shirt.png';
 import { Link } from "react-router-dom";
 
 // Map array
-function ItemList(props) {
-    const items = props.items;
-    const listItems = items.map((item) => (
-            <div className="col-lg-4 col-md-6 mb-4 float-left">
-                <div className="card h-100">
-                    <a href="#"><img id="img" className="card-img-top" src={Cooler} alt=""/></a>
-                    <div className="card-body">
-                        <h4 className="card-title">
-                           <Link to="/item">{item.title}</Link>
-                        </h4>
-                        <h5 id="price">{item.price}</h5>
-                        <p id="description" className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                            Amet numquam
-                            aspernatur! Lorem ipsum dolor sit amet.</p>
-                    </div>
-                    <div className="card-footer">
-                        <small className="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                        <button className="btn_purchase" onClick="">Purchase</button>
-                    </div>
-                </div>
-            </div>
-        )
-    );
-    return (
-        <ul>{listItems}</ul>
-    )
-}
+export const ItemList = ({ items = [], itemClick }) => (
+    <ul>
+        {items.map((item, key) =>
+            <Item item={item} key={key} onClick={itemClick} />
+        )}
+    </ul>
+)
 
 const items = [
     {id: 1, img: {Pepper}, title: "Red Bell Pepper", price: 59},
@@ -51,7 +31,7 @@ const items = [
     {id: 7, img: {Pepper}, title: "Purple Bell Pepper", price: 39},
     {id: 8, img: {Pepper}, title: "Yellow Bell Pepper", price: 39},
 ];
-const Shop = () => (
+const Shop = ({items, itemClick}) => (
     <div className="col-lg-9 float-right shop">
         <Carousel className="my-4">
             <Carousel.Item>
@@ -78,7 +58,7 @@ const Shop = () => (
         </Carousel>
 
         <div className="row">
-            <ItemList items={items}/>
+            <ItemList items={items} itemClick={itemClick}/>
         </div>
     </div>
 );
