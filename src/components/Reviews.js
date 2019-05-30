@@ -1,8 +1,6 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../index.css';
-import Modal from 'react-awesome-modal';
-import {Link} from "react-router-dom";
 
 // Import Reviews to Cards
 function ReviewList({ reviews = [], users = {}, getUser = () => {} }) {

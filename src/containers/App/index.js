@@ -24,6 +24,8 @@ import LoginPage from '../LoginPage'
 import LogoutPage from '../LogoutPage'
 import AccountPage from '../AccountPage'
 import SitemapPage from '../SitemapPage'
+import PaymentsPage from '../PaymentsPage'
+import AddressesPage from '../AddressesPage'
 import VendorPage from '../VendorPage'
 import RegisterPage from '../RegisterPage'
 import StorePage from '../StorePage'
@@ -62,6 +64,8 @@ const App = ({ loadUser, loadItems, loadCart, loadVendors, authed, user, cartIte
             <PrivateRoute path="/order-complete" component={OrderCompletePage} />
             <PrivateRoute path="/logout" component={LogoutPage} />
             <PrivateRoute path="/account" component={AccountPage} />
+            <PrivateRoute path="/payments" component={PaymentsPage}/>
+            <PrivateRoute path="/addresses" component={AddressesPage}/>
             <PrivateRoute path="/vendor" component={VendorPage} />
             <PrivateRoute path="/checkout" component={CheckoutPage} />
             <PrivateRoute path="/cart" component={CartPage} />
