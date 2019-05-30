@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 
 export default class AddItemForm extends React.Component {
     state = {
-        email: '',
-        firstName: '',
-        lastName: '',
-        password: ''
+        name: '',
+        price: '',
+        description: '',
+        category: ''
     };
 
     handleInputChange = (event) => {
@@ -22,33 +22,33 @@ export default class AddItemForm extends React.Component {
     }
 
     render() {
-        const { register } = this.props
-        const { email, firstName, lastName, password } = this.state
+        const { addItem } = this.props
+        const { name, price, description, category } = this.state
         return (<div className="register-form">
-            <form onSubmit={evt => register(evt, email, firstName, lastName, password)}>
+            <form onSubmit={evt => addItem(evt, name, price, description, category)}>
                 <h1>Edit Account Information</h1>
                 <div className="form-group row">
-                    <label htmlFor="email" className="col-md-3 col-form-label text-md-right">E-Mail</label>
+                    <label htmlFor="name" className="col-md-3 col-form-label text-md-right">Name</label>
                     <div className="col-md-8">
-                        <input onChange={this.handleInputChange} type="text" id="email" className="form-control" name="email" required autoFocus/>
+                        <input onChange={this.handleInputChange} type="text" id="name" className="form-control" name="name" required autoFocus/>
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label htmlFor="firstName" className="col-md-3 col-form-label text-md-right">First Name</label>
+                    <label htmlFor="price" className="col-md-3 col-form-label text-md-right">Price</label>
                     <div className="col-md-8">
-                        <input onChange={this.handleInputChange} type="text" id="firstName" className="form-control" name="email" required autoFocus/>
+                        <input onChange={this.handleInputChange} type="number" id="price" className="form-control" name="price" required autoFocus/>
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label htmlFor="lastName" className="col-md-3 col-form-label text-md-right">Last Name</label>
+                    <label htmlFor="description" className="col-md-3 col-form-label text-md-right">Description</label>
                     <div className="col-md-8">
-                        <input onChange={this.handleInputChange} type="text" id="lastName" className="form-control" name="email" required autoFocus/>
+                        <input onChange={this.handleInputChange} type="text" id="description" className="form-control" name="description" required autoFocus/>
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label htmlFor="password" className="col-md-3 col-form-label text-md-right">Password</label>
+                    <label htmlFor="category" className="col-md-3 col-form-label text-md-right">Category</label>
                     <div className="col-md-8">
-                        <input onChange={this.handleInputChange} type="password" id="password" className="form-control" name="password" required/>
+                        <input onChange={this.handleInputChange} type="text" id="category" className="form-control" name="category" required/>
                     </div>
                 </div>
                 <div className="col-md-10 offset-md-2">

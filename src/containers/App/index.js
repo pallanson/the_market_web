@@ -36,7 +36,7 @@ const App = ({ loadUser, authed, user }) => {
         <Header isAuthed={authed} currentUser={user} />
         <Switch>
             <Route exact path="/" component={HomePage} />
-            <Route exact path="/about" component={AccountPage} />
+            <Route exact path="/about" component={AboutPage} />
             <Route exact path="/contact" component={ContactPage} />
             <Route path="/category/:categoryName" component={CategoryPage} />
             <Route path="/login" component={LoginPage} />
@@ -44,10 +44,10 @@ const App = ({ loadUser, authed, user }) => {
             <Route path="/item/" component={ItemPage} />
             <Route path="/sitemap" component={SitemapPage} />
             <PrivateRoute path="/logout" component={LogoutPage} />
-            <Route path="/account" component={AccountPage} />
-            <Route path="/vendor" component={VendorPage} />
-            <Route path="/checkout" component={CheckoutPage} />
-            <Route path="/cart" component={CartPage} />
+            <PrivateRoute path="/account" component={AccountPage} />
+            <PrivateRoute path="/vendor" component={VendorPage} />
+            <PrivateRoute path="/checkout" component={CheckoutPage} />
+            <PrivateRoute path="/cart" component={CartPage} />
             <Route path="" component={NotFound} />
         </Switch>
         <Footer/>
