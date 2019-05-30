@@ -128,12 +128,26 @@ const makeSelectMyReview = () =>
         (reviews = [], currentUser) => reviews.find(review => currentUser && review.userId === currentUser.userId)
     )
 
+const makeSelectCurrentCartCount = () =>
+    createSelector(
+        makeSelectCart(),
+        (cart) => cart.reduce((acum, cur) => acum + cur.quantity, 0)
+    )
+
+const makeSelectCartTotal = () =>
+    createSelector(
+        makeSelectCart(),
+        makeSelectItems(),
+        (cart, items) => cart.reduce((acum, cur) => acum + items[cur.itemId].price * cur.quantity, 0)
+    )
+
 export {
     selectApp,
     selectRouter,
     makeSelectIsAuthed,
     makeSelectAddresses,
     makeSelectCart,
+    makeSelectCartTotal,
     makeSelectCurrentCategory,
     makeSelectCurrentUser,
     makeSelectError,
@@ -147,6 +161,7 @@ export {
     makeSelectItemsPerPage,
     makeSelectSearchResults,
     makeSelectSearchString,
+    makeSelectCurrentCartCount,
     makeSelectMyReview,
     makeSelectUsers,
     makeSelectVendors

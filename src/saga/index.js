@@ -228,7 +228,11 @@ function * remove_from_cart(action) {
     const {itemId} = action
     try {
         yield call(putReq, `cart/remove`, { itemId })
-        yield put(apiSuccess())
+        const { data } = yield call(get, `cart`)
+        
+        yield put(apiSuccess({
+            cart: [ ...data.items ]
+        }))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
     }

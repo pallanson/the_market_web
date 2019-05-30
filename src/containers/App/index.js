@@ -4,7 +4,11 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import { Switch, Route } from 'react-router-dom'
-import { makeSelect, makeSelectIsAuthed, makeSelectCurrentUser } from '../../selectors'
+import {
+    makeSelectIsAuthed,
+    makeSelectCurrentUser,
+    makeSelectCurrentCartCount
+} from '../../selectors'
 import Actions from '../../actions'
 import Header from '../../components/Header.js'
 import Footer from "../../components/Footer"
@@ -24,18 +28,20 @@ import RegisterPage from '../RegisterPage'
 import PrivateRoute from '../PrivateRoute'
 import NotFound from '../NotFound'
 
-const App = ({ loadUser, loadItems, authed, user }) => {
+const App = ({ loadUser, loadItems, loadCart, authed, user, cartItems }) => {
 
     useEffect(() => {
         // Load user from local storage, if available
         loadUser()
         // Load all items
         loadItems()
-    }, [loadUser, loadItems]);
+        // Load the cart
+        loadCart()
+    }, [loadUser, loadItems, loadCart]);
     
     return (
     <div>
-        <Header isAuthed={authed} currentUser={user} />
+        <Header isAuthed={authed} currentUser={user} cartItems={cartItems} />
         <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/about" component={AboutPage} />
@@ -58,13 +64,15 @@ const App = ({ loadUser, loadItems, authed, user }) => {
 
 const mapStateToProps = createStructuredSelector({
     authed: makeSelectIsAuthed(),
-    user: makeSelectCurrentUser()
+    user: makeSelectCurrentUser(),
+    cartItems: makeSelectCurrentCartCount()
 })
 
 const mapDispatchToProps = (dispatch) => {
     return {
         loadUser: () => dispatch(Actions.loadLocalUser()),
-        loadItems: () => dispatch(Actions.getAllItems())
+        loadItems: () => dispatch(Actions.getAllItems()),
+        loadCart: () => dispatch(Actions.getCart())
     }
 }
 

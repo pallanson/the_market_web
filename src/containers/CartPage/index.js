@@ -1,63 +1,103 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../index.css';
+import Actions from '../../actions'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { ratingStr } from '../../components/Item'
+import { createStructuredSelector } from 'reselect'
 import {Link} from "react-router-dom";
-import Pepper from '../../img/bell_pepper.png';
-import Pikachu from '../../img/pikachu.png';
-import Ice from '../../img/ice.png';
-import Carrots from '../../img/carrot.png';
-import Cooler from '../../img/cooler.png';
-import Shirt from '../../img/shirt.png';
+import { makeSelectCart, makeSelectCartTotal, makeSelectItems } from '../../selectors';
 
 // Map Items to cards
-function ItemList(props) {
-    const items = props.items;
-    const listItems = items.map((item) => (
-            <div className="col-lg-12 col-md-6 mb-4">
-                <div className="card h-100">
-                    <img id="img" className="card-img-top" src={Cooler} alt=""/>
-                    <div className="card-body">
-                        <h4 className="card-title">
-                            <Link to="/item">{item.title}</Link>
-                        </h4>
-                        <h5 id="price">{item.price}</h5>
+const ItemList = ({ items, cart, addOneMore, removeFromCart }) => (
+    <ul>
+    {
+        cart.map(({ itemId, quantity }, key) => {
+            const { rating, name, price, imageUrl } = items[itemId]
+            return (
+            <div key={key} className="col-12 row">
+                <div className="col-2 text-center">
+                    <img className="img-responsive" src={imageUrl} alt="preview" width="120" height="80"></img>
+                </div>
+                <div className="col-6 text-sm-center">
+                    <h4 className="product-name"><strong>{ name }</strong></h4>
+                    <h4>
+                        <small>{ ratingStr(rating) }</small>
+                    </h4>
+                </div>
+                <div className="col-4 text-sm-center text-md-right row align-items-center">
+                    <div className="col-6 text-md-right">
+                        <h6><strong>${price}<span className="text-muted"> x </span></strong>{quantity}</h6>
                     </div>
-                    <div className="card-footer">
-                        <small className="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                        <button className="btn_purchase" onClick="">Remove</button>
+                    <div className="col-3 text-right">
+                        <button type="button" className="btn btn-info btn-xs" onClick={() => addOneMore(itemId)}>
+                            Add
+                        </button>
+                    </div>
+                    <div className="col-3 text-right">
+                        <button type="button" className="btn btn-outline-danger btn-xs" onClick={() => removeFromCart(itemId)}>
+                            Remove
+                        </button>
                     </div>
                 </div>
             </div>
-        )
-    );
-    return (
-        <ul>{listItems}</ul>
-    )
-}
+            )
+        })
+    }
+    </ul>
+)
 
-const items = [
-    {id: 1, img: {Pepper}, title: "Red Bell Pepper", price: 59},
-    {id: 2, img: {Pikachu}, title: "Pikachu Plush", price: 250},
-    {id: 3, img: {Ice}, title: "Ice", price: 100},
-    {id: 4, img: {Carrots}, title: "Carrots", price: 25},
-    {id: 5, img: {Cooler}, title: "Cooler", price: 399},
-    {id: 6, img: {Shirt}, title: "Shirt", price: 199},
-    {id: 7, img: {Pepper}, title: "Purple Bell Pepper", price: 39},
-    {id: 8, img: {Pepper}, title: "Yellow Bell Pepper", price: 39},
-];
-const Shop = () => (
+const CartPage = ({ items, addOneMore, removeFromCart, cart, cartTotal }) => (
     <div className="col-lg-9 mt-5 float-right">
-        <h2>Cart</h2>
-        <div className="row">
-            <ItemList items={items}/>
+         <div className="card">
+            <div className="card-header">
+                <h3>Cart</h3>
+            </div>
+            {
+                cartTotal === 0 ?
+                    (
+                        <p className="text-center">Your cart is empty!</p>
+                    )
+                : (
+                    <div>
+                        <div className="card-body">
+                            <ItemList 
+                                cart={cart}
+                                addOneMore={addOneMore}
+                                removeFromCart={removeFromCart}
+                                items={items}
+                            />
+                        </div>
+                        <div className="card-footer">
+                            <div className="float-right">
+                                <div className="d-inline-flex align-items-center">
+                                    <p className="mr-5">Total price: ${cartTotal}</p>
+                                    <Link to="/checkout"><button className="btn btn-success">Checkout</button></Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
         </div>
-        <div className="col-lg-8">
-            <Link to="/checkout">
-                <button className="btn_add" onClick="">Checkout</button>
-            </Link>
-        </div>
-        <br/><br/><br/><br/><br/><br/>
     </div>
 );
 
-export default Shop;
+const mapStateToProps = createStructuredSelector({
+    items: makeSelectItems(),
+    cart: makeSelectCart(),
+    cartTotal: makeSelectCartTotal()
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    removeFromCart: (itemId) => dispatch(Actions.removeFromCart(itemId)),
+    addOneMore: (itemId) => dispatch(Actions.addToCart(itemId))
+})
+
+const withConnect = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)
+
+export default compose(withConnect)(CartPage);

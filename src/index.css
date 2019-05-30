@@ -48,18 +48,6 @@ code {
     margin-bottom: 120px;
 }
 
-.btn_purchase {
-    width: 115px;
-    height: 30px;
-    float: right;
-    color: #fff;
-    background-color: #009ED8;
-    font-family: "Montserrat", "Trebuchet MS", Helvetica, sans-serif;
-    font-weight: bold;
-    border: none;
-    transition: .2s;
-}
-
 .btn_add {
     width: 150px;
     height: 40px;
