@@ -413,7 +413,7 @@ function * get_vendor(action) {
     const { vendorId } = action
     yield put(apiRequest(`GET: vendor/id/${vendorId}`, action))
     try {
-        const vendors = yield select(makeSelectVendors)
+        const vendors = yield select(makeSelectVendors())
         const { data: vendor } = yield call(get, `vendor/id/${vendorId}`)
         
         yield put(apiSuccess({
@@ -430,7 +430,7 @@ function * get_vendor_by_name(action) {
     const { name } = action
     yield put(apiRequest(`GET: vendor/name/${name}`, action))
     try {
-        const vendors = yield select(makeSelectVendors)
+        const vendors = yield select(makeSelectVendors())
         const { data: vendor } = yield call(get, `vendor/name/${name}`)
         
         yield put(apiSuccess({
@@ -460,7 +460,7 @@ function * create_vendor(action) {
     yield put(apiRequest('POST: vendor', action))
     const { name } = action
     try {
-        const vendors = yield select(makeSelectVendors)
+        const vendors = yield select(makeSelectVendors())
         const { data } = yield call(post, `vendor`, { name })
         
         yield put(apiSuccess({
@@ -477,7 +477,7 @@ function * update_vendor(action) {
     yield put(apiRequest('PUT: vendor', action))
     const { vendorId, name } = action
     try {
-        const vendors = yield select(makeSelectVendors)
+        const vendors = yield select(makeSelectVendors())
         const { data } = yield call(putReq, `vendor`, { name })
         
         yield put(apiSuccess({
@@ -536,13 +536,16 @@ function * get_item_by_name(action) {
 }
 function * create_item(action) {
     yield put(apiRequest('POST: item', action))
-    const {name, price, description, category, vendorId} = action
+    const {name, price, description, category, vendorId, imageUrl} = action
     try {
-        yield call(post, `item`, {name, price, description, category})
+        yield call(post, `item`, {name, price, description, category, vendorId, imageUrl})
         const { data: items } = yield call(get, `item`)
         
         yield put(apiSuccess({
-            items
+            items: items.reduce((obj, item) => {
+                obj[item.itemId] = item
+                return obj
+            }, {})
         }))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))

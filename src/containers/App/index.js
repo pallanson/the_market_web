@@ -24,7 +24,10 @@ import LoginPage from '../LoginPage'
 import LogoutPage from '../LogoutPage'
 import AccountPage from '../AccountPage'
 import SitemapPage from '../SitemapPage'
-import VendorPage from '../VendorPage'
+import PaymentsPage from '../PaymentsPage'
+import AddressesPage from '../AddressesPage'
+import VendorsPage from '../VendorPage'
+import VendorSettingsPage from '../VendorSettingsPage'
 import RegisterPage from '../RegisterPage'
 import StorePage from '../StorePage'
 import SearchPage from '../SearchPage'
@@ -50,8 +53,8 @@ const App = ({ loadUser, loadItems, loadCart, loadVendors, authed, user, cartIte
         <Header isAuthed={authed} currentUser={user} cartItems={cartItems} />
         <Switch>
             <Route exact path="/" component={HomePage} />
-            <Route exact path="/about" component={AboutPage} />
-            <Route exact path="/contact" component={ContactPage} />
+            <Route path="/about" component={AboutPage} />
+            <Route path="/contact" component={ContactPage} />
             <Route path="/category/:categoryName" component={CategoryPage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/register" component={RegisterPage} />
@@ -59,10 +62,13 @@ const App = ({ loadUser, loadItems, loadCart, loadVendors, authed, user, cartIte
             <Route path="/vendor/:userId" component={StorePage} />
             <Route path="/search" component={SearchPage} />
             <Route path="/sitemap" component={SitemapPage} />
+            <Route path="/vendor" component={VendorsPage} />
             <PrivateRoute path="/order-complete" component={OrderCompletePage} />
             <PrivateRoute path="/logout" component={LogoutPage} />
-            <PrivateRoute path="/account" component={AccountPage} />
-            <PrivateRoute path="/vendor" component={VendorPage} />
+            <PrivateRoute exact path="/account" component={AccountPage} />
+            <PrivateRoute path="/account/payments" component={PaymentsPage}/>
+            <PrivateRoute path="/account/addresses" component={AddressesPage}/>
+            <PrivateRoute path="/account/vendor" component={VendorSettingsPage} />
             <PrivateRoute path="/checkout" component={CheckoutPage} />
             <PrivateRoute path="/cart" component={CartPage} />
             <Route path="" component={NotFound} />
