@@ -32,7 +32,8 @@ export const StorePage = ({ setCurrentVendor, itemsPerPage, items, match, authed
         <div className="container">
             <Categories/>
             <h3>{ getStoreName({userId, vendors}) }</h3>
-            <Shop 
+            <Shop
+                noBanner={true}
                 items={items.slice((page - 1) * itemsPerPage, page * itemsPerPage)}
                 itemClick={addToCart}
                 pages={Math.ceil(items.length / itemsPerPage)}

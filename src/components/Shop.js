@@ -19,6 +19,7 @@ const Shop = ({
     pages,
     page,
     authed,
+    noBanner = false,
     setPage = () => {},
     itemClick}) => {
 
@@ -32,29 +33,31 @@ const Shop = ({
     
     return (
         <div className="col-lg-9 float-right shop">
-            <Carousel className="my-4">
-                <Carousel.Item>
-                    <img
-                        className="d-block w-100"
-                        src={Salt_Sale}
-                        alt="Salt Sale"
-                    />
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img
-                        className="d-block w-100"
-                        src="http://placehold.it/900x350"
-                        alt="Salt Sale"
-                    />
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img
-                        className="d-block w-100"
-                        src="http://placehold.it/900x350"
-                        alt="Salt Sale"
-                    />
-                </Carousel.Item>
-            </Carousel>
+            { !noBanner && (
+                <Carousel className="my-4">
+                    <Carousel.Item>
+                        <img
+                            className="d-block w-100"
+                            src={Salt_Sale}
+                            alt="Salt Sale"
+                        />
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <img
+                            className="d-block w-100"
+                            src="http://placehold.it/900x350"
+                            alt="Salt Sale"
+                        />
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <img
+                            className="d-block w-100"
+                            src="http://placehold.it/900x350"
+                            alt="Salt Sale"
+                        />
+                    </Carousel.Item>
+                </Carousel>
+            )}
 
             <ItemList items={items} authed={authed} itemClick={itemClick}/>
             
