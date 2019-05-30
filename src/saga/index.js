@@ -13,8 +13,11 @@ import auth from '../utils/auth'
 const {
     apiSuccess,
     getAllItems,
+    setCurrentPaymentMethod,
+    setCurrentAddress,
     apiFailure,
     apiRequest,
+    clearCart,
     clearError
 } = Actions
 const {
@@ -148,6 +151,7 @@ function * add_address(action) {
                 data
             ]
         }))
+        yield put(setCurrentAddress(data))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
     }
@@ -228,17 +232,21 @@ function * remove_from_cart(action) {
     const {itemId} = action
     try {
         yield call(putReq, `cart/remove`, { itemId })
-        yield put(apiSuccess())
+        const { data } = yield call(get, `cart`)
+        
+        yield put(apiSuccess({
+            cart: [ ...data.items ]
+        }))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
     }
 }
 function * checkout(action) {
     yield put(apiRequest('POST: cart/checkout', action))
-    const {addressId} = action
+    const {addressId, paymentId} = action
     try {
-        const { data: order } = yield call(post, `cart/checkout`, { addressId })
-        
+        const { data: order } = yield call(post, `cart/checkout`, { addressId, paymentId })
+        yield put(clearCart())
         yield put(apiSuccess({
             order
         }))
@@ -325,6 +333,8 @@ function * add_payment_option(action) {
                 data
             ]
         }))
+
+        yield put(setCurrentPaymentMethod(data))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
     }
@@ -379,6 +389,7 @@ function * delete_payment_option(action) {
         yield put(apiSuccess({
             paymentMethods: [ ...data ]
         }))
+        yield put(setCurrentPaymentMethod(null))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
     }
@@ -389,7 +400,10 @@ function * get_all_vendors(action) {
         const { data: vendors } = yield call(get, `vendor`)
         
         yield put(apiSuccess({
-            vendors
+            vendors: vendors.reduce((obj, cur) => {
+                obj[cur.userId] = cur
+                return obj
+            }, {})
         }))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
@@ -399,14 +413,14 @@ function * get_vendor(action) {
     const { vendorId } = action
     yield put(apiRequest(`GET: vendor/id/${vendorId}`, action))
     try {
-        const vendors = yield select(makeSelectVendors)
+        const vendors = yield select(makeSelectVendors())
         const { data: vendor } = yield call(get, `vendor/id/${vendorId}`)
         
         yield put(apiSuccess({
-            vendors: [
+            vendors: {
                 ...vendors,
-                vendor
-            ]
+                [vendor.userId]: vendor
+            }
         }))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
@@ -416,14 +430,14 @@ function * get_vendor_by_name(action) {
     const { name } = action
     yield put(apiRequest(`GET: vendor/name/${name}`, action))
     try {
-        const vendors = yield select(makeSelectVendors)
+        const vendors = yield select(makeSelectVendors())
         const { data: vendor } = yield call(get, `vendor/name/${name}`)
         
         yield put(apiSuccess({
-            vendors: [
+            vendors: {
                 ...vendors,
-                vendor
-            ]
+                [vendor.userId]: vendor
+            }
         }))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
@@ -446,14 +460,14 @@ function * create_vendor(action) {
     yield put(apiRequest('POST: vendor', action))
     const { name } = action
     try {
-        const vendors = yield select(makeSelectVendors)
+        const vendors = yield select(makeSelectVendors())
         const { data } = yield call(post, `vendor`, { name })
         
         yield put(apiSuccess({
-            vendors: [
+            vendors: {
                 ...vendors,
-                data.vendor
-            ]
+                [data.userId]: data
+            }
         }))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
@@ -463,14 +477,14 @@ function * update_vendor(action) {
     yield put(apiRequest('PUT: vendor', action))
     const { vendorId, name } = action
     try {
-        const vendors = yield select(makeSelectVendors)
+        const vendors = yield select(makeSelectVendors())
         const { data } = yield call(putReq, `vendor`, { name })
         
         yield put(apiSuccess({
-            vendors: [
+            vendors: {
                 ...vendors,
-                data
-            ]
+                [data.userId]: data
+            }
         }))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
@@ -522,13 +536,16 @@ function * get_item_by_name(action) {
 }
 function * create_item(action) {
     yield put(apiRequest('POST: item', action))
-    const {name, price, description, category, vendorId} = action
+    const {name, price, description, category, vendorId, imageUrl} = action
     try {
-        yield call(post, `item`, {name, price, description, category})
+        yield call(post, `item`, {name, price, description, category, vendorId, imageUrl})
         const { data: items } = yield call(get, `item`)
         
         yield put(apiSuccess({
-            items
+            items: items.reduce((obj, item) => {
+                obj[item.itemId] = item
+                return obj
+            }, {})
         }))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))

@@ -1,5 +1,6 @@
 import { createSelector, createSelectorCreator } from 'reselect'
 import { initialState } from '../constants'
+import { select } from 'redux-saga/effects';
 
 const selectApp = state => state.app || initialState
 
@@ -83,17 +84,17 @@ const makeSelectSearchString = () =>
         ({searchString}) => searchString 
     )
 
-const makeSelectItemsPerPage = () =>
-    createSelector(
-        selectApp,
-        ({itemsPerPage}) => itemsPerPage
-    )
-
 const makeSelectSearchResults = () =>
     createSelector(
         makeSelectItemsArray(),
         makeSelectSearchString(),
-        (items, searchString) => items.filter(item => item.name.includes(searchString))
+        (items, searchString) => items.filter(item => item.name.toLowerCase().includes(searchString) || item.description.toLowerCase().includes(searchString))
+    )
+
+const makeSelectItemsPerPage = () =>
+    createSelector(
+        selectApp,
+        ({itemsPerPage}) => itemsPerPage
     )
 
 
@@ -115,6 +116,12 @@ const makeSelectVendors = () =>
         ({vendors}) => vendors 
     )
 
+const makeSelectVendorsArray = () =>
+    createSelector(
+        selectApp,
+        ({vendors}) => Object.values(vendors)
+    )
+
 const makeSelectUsers = () =>
     createSelector(
         selectApp,
@@ -128,18 +135,97 @@ const makeSelectMyReview = () =>
         (reviews = [], currentUser) => reviews.find(review => currentUser && review.userId === currentUser.userId)
     )
 
+const makeSelectCurrentCartCount = () =>
+    createSelector(
+        makeSelectCart(),
+        (cart) => cart.reduce((acum, cur) => acum + cur.quantity, 0)
+    )
+
+const makeSelectCartTotal = () =>
+    createSelector(
+        makeSelectCart(),
+        makeSelectItems(),
+        (cart, items) => cart.reduce((acum, cur) => acum + (items[cur.itemId] ? items[cur.itemId].price : 0) * cur.quantity, 0)
+    )
+
+const makeSelectCurrentPaymentMethod = () =>
+    createSelector(
+        selectApp,
+        ({currentPaymentMethod}) => currentPaymentMethod
+    )
+
+const makeSelectCurrentAddress = () =>
+    createSelector(
+        selectApp,
+        ({currentAddress}) => currentAddress
+    )
+
+const makeSelectCurrentVendor = () =>
+    createSelector(
+        selectApp,
+        ({currentVendor}) => currentVendor
+    )
+
+const makeSelectOrder = () =>
+    createSelector(
+        selectApp,
+        ({order}) => order
+    )
+
+const makeSelectIsCurrentUserVendor = () => 
+    createSelector(
+        makeSelectVendors(),
+        makeSelectCurrentUser(),
+        (vendors, user) => {
+            if (!user) return false
+            return !!vendors[user.userId]
+        }
+    )
+
+const makeSelectCurrentUserVendorId = () => 
+    createSelector(
+        makeSelectVendors(),
+        makeSelectCurrentUser(),
+        (vendors, user) => {
+            if (!user) return null
+            if (!vendors[user.userId]) return null
+            return vendors[user.userId].vendorId
+        }
+    )
+
+const makeSelectCurrentVendorItems = () =>
+    createSelector(
+        makeSelectVendors(),
+        makeSelectItemsArray(),
+        makeSelectCurrentVendor(),
+        (vendors, items, currentVendor) => {
+            if (!currentVendor || !vendors[currentVendor]) return []
+            const vendorId = vendors[currentVendor].vendorId
+            if (!vendorId) return []
+            return items.filter(item => item.vendorId === vendorId)
+        }
+    )
+
 export {
     selectApp,
     selectRouter,
     makeSelectIsAuthed,
     makeSelectAddresses,
     makeSelectCart,
+    makeSelectVendorsArray,
+    makeSelectCartTotal,
+    makeSelectCurrentVendor,
+    makeSelectCurrentUserVendorId,
     makeSelectCurrentCategory,
+    makeSelectCurrentPaymentMethod,
+    makeSelectCurrentVendorItems,
+    makeSelectCurrentAddress,
     makeSelectCurrentUser,
     makeSelectError,
     makeSelectItems,
     makeSelectItemsArray,
     makeSelectCurrentItem,
+    makeSelectIsCurrentUserVendor,
     makeSelectCurrentReviews,
     makeSelectItemsInCategory,
     makeSelectLoading,
@@ -147,7 +233,9 @@ export {
     makeSelectItemsPerPage,
     makeSelectSearchResults,
     makeSelectSearchString,
+    makeSelectCurrentCartCount,
     makeSelectMyReview,
     makeSelectUsers,
-    makeSelectVendors
+    makeSelectVendors,
+    makeSelectOrder
 }

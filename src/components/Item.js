@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../index.css';
 import Cooler from "../img/cooler.png";
@@ -17,7 +17,7 @@ export const ratingStr = (rating = 0) => {
     return str.trim()
 } 
 
-const Item = ({item, onClick = () => {}}) => {
+const Item = ({item, onClick = () => {}, authed}) => {
     const {
         name,
         rating,
@@ -26,10 +26,11 @@ const Item = ({item, onClick = () => {}}) => {
         description,
         imageUrl
     } = item
+    const [ clicked, setClicked ] = useState(false)
     return (
         <div className="col-lg-4 col-md-6 mb-4">
             <div className="card">
-                <Link to={`item/${itemId}`}><img id="img" className="card-img-top" src={imageUrl ? imageUrl : Cooler} alt=""/></Link>
+                <Link to={`item/${itemId}`}><img id="img" className="card-img-top" src={imageUrl} alt=""/></Link>
                 <div className="card-body">
                     <h4 className="card-title">
                         <Link id="title" to={`/item/${itemId}`}>{ name }</Link>
@@ -39,7 +40,9 @@ const Item = ({item, onClick = () => {}}) => {
                 </div>
                 <div className="card-footer">
                     <small className="text-muted">{ ratingStr(rating) }</small>
-                    <button className="btn_purchase" onClick={() => onClick(item)}>Purchase</button>
+                    <button disabled={!authed || clicked} className={`btn ml-3 btn-primary btn_purchase`} onClick={() => { onClick(item); setClicked(true) }}>
+                        { authed ? (clicked ? 'Purchased' : 'Purchase') : 'Log in to buy' }
+                    </button>
                 </div>
             </div>
         </div>

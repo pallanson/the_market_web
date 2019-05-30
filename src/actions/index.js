@@ -6,13 +6,16 @@ const { Types, Creators } = createActions({
     register: ["email", "firstName", "lastName", "password"],
     logout: null,
     getAddresses: null,
+    setCurrentVendor: ["userId"],
+    setCurrentAddress: ["address"],
+    setCurrentPaymentMethod: ["method"],
     addAddress: ["name", "addressLineOne", "addressLineTwo", "city", "country", "postcode"],
     editAddress: ["addressId", "name", "addressLineOne", "addressLineTwo", "city", "country", "postcode"],
     removeAddress: ["addressId"],
     getCart: null,
     addToCart: ["itemId"],
     removeFromCart: ["itemId"],
-    checkout: ["addressId"],
+    checkout: ["addressId", "paymentId"],
     getReviews: ["itemId"],
     postReview: ["itemId", "title", "text", "rating"],
     editReview: ["itemId", "title", "text", "rating"],
@@ -32,7 +35,7 @@ const { Types, Creators } = createActions({
     getAllItems: null,
     getItem: ["itemId"],
     getItemByName: ["name"],
-    createItem: ["name", "price", "description", "category", "vendorId"],
+    createItem: ["name", "price", "description", "category", "vendorId", "imageUrl"],
     updateItem: ["itemId", "name", "price", "description", "category"],
     deleteItem: ["itemId"],
     setCategory: ["category"],
@@ -43,7 +46,8 @@ const { Types, Creators } = createActions({
     apiRequest: ["endpoint", "payload"],
     apiSuccess: ["payload"],
     apiFailure: ["error"],
-    clearError: null
+    clearError: null,
+    clearCart: null
 });
 
 export { Types };

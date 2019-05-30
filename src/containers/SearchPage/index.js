@@ -1,39 +1,20 @@
-import React, { useEffect, useState, memo } from 'react'
+import React, { useState, memo } from 'react'
 import Actions from '../../actions'
-import { CategoryPrettyNames, CategoryFilters } from '../../constants'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../../index.css'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { makeSelectItemsInCategory, makeSelectItemsPerPage, makeSelectIsAuthed } from '../../selectors'
+import { makeSelectSearchString, makeSelectItemsPerPage, makeSelectIsAuthed, makeSelectSearchResults } from '../../selectors'
 import Categories from "../../components/Categories"
 import Shop from "../../components/Shop"
-import BannerCarousel from "../../components/BannerCarousel";
 
-const getCategoryName = (category) => {
-    const constant = Object.keys(CategoryFilters).find(cat => CategoryFilters[cat] === category)
-    if (constant) {
-        return CategoryPrettyNames[constant]
-    }
-
-    return category
-}
-
-export const CategoryPage = ({ setCategory, itemsPerPage, items, match, authed, addToCart }) => {
-    const { categoryName } = match.params
-    const [fetched, setFetched] = useState(null)
+export const CategoryPage = ({ setCategory, searchStr, itemsPerPage, items, match, authed, addToCart }) => {
     const [page, setPage] = useState(1)
-    useEffect(() => {
-        if (fetched !== categoryName) {
-            setCategory(categoryName)
-            setFetched(categoryName)
-        }
-    }, [fetched, setCategory, categoryName])
     return (
         <div className="container">
             <Categories/>
-            <h3>{ getCategoryName(categoryName) }</h3>
+            <h3>Search results for "{ searchStr }"</h3>
             <Shop 
                 items={items.slice((page - 1) * itemsPerPage, page * itemsPerPage)}
                 itemClick={addToCart}
@@ -47,14 +28,14 @@ export const CategoryPage = ({ setCategory, itemsPerPage, items, match, authed, 
 }
 
 const mapStateToProps = createStructuredSelector({
-    items: makeSelectItemsInCategory(),
+    items: makeSelectSearchResults(),
+    searchStr: makeSelectSearchString(),
     itemsPerPage: makeSelectItemsPerPage(),
     authed: makeSelectIsAuthed()
 })
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setCategory: (cat) => dispatch(Actions.setCategory(cat)),
         addToCart: ({itemId}) => dispatch(Actions.addToCart(itemId))
     }
 }

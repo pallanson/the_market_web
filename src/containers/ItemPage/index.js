@@ -60,7 +60,7 @@ export const ItemPage = ({
                         <h4>${price}</h4>
                         <p className="card-text">{ description }</p>
                         <Link to="/cart">
-                            <button className="btn_add" onClick={addToCart}>Add to Cart</button>
+                            <button className="btn_add" onClick={() => addToCart(item)}>Add to Cart</button>
                         </Link>
                         <span className="text-warning">{ratingStr(rating)}</span>
                         {rating} stars
@@ -104,10 +104,10 @@ const mapDispatchToProps = (dispatch) => {
         editReview: (itemId, title, text, rating) => {
             dispatch(Actions.editReview(itemId, title, text, rating))
         },
+        addToCart: ({itemId}) => dispatch(Actions.addToCart(itemId)),
         addReview: (itemId, title, text, rating) => {
             dispatch(Actions.postReview(itemId, title, text, rating))
-        },
-        addToCart: () => {}
+        }
     }
 }
 

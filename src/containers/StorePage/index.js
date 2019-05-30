@@ -6,35 +6,34 @@ import '../../index.css'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { makeSelectItemsInCategory, makeSelectItemsPerPage, makeSelectIsAuthed } from '../../selectors'
+import { makeSelectItemsPerPage, makeSelectIsAuthed, makeSelectCurrentVendorItems, makeSelectVendors } from '../../selectors'
 import Categories from "../../components/Categories"
 import Shop from "../../components/Shop"
-import BannerCarousel from "../../components/BannerCarousel";
 
-const getCategoryName = (category) => {
-    const constant = Object.keys(CategoryFilters).find(cat => CategoryFilters[cat] === category)
-    if (constant) {
-        return CategoryPrettyNames[constant]
+const getStoreName = ({userId, vendors}) => {
+    if (vendors[userId]) {
+        return vendors[userId].name
     }
 
-    return category
+    return 'Shop'
 }
 
-export const CategoryPage = ({ setCategory, itemsPerPage, items, match, authed, addToCart }) => {
-    const { categoryName } = match.params
+export const StorePage = ({ setCurrentVendor, itemsPerPage, items, match, authed, addToCart, vendors }) => {
+    const { userId } = match.params
     const [fetched, setFetched] = useState(null)
     const [page, setPage] = useState(1)
     useEffect(() => {
-        if (fetched !== categoryName) {
-            setCategory(categoryName)
-            setFetched(categoryName)
+        if (fetched !== userId) {
+            setCurrentVendor(userId)
+            setFetched(userId)
         }
-    }, [fetched, setCategory, categoryName])
+    }, [fetched, setCurrentVendor, userId])
     return (
         <div className="container">
             <Categories/>
-            <h3>{ getCategoryName(categoryName) }</h3>
-            <Shop 
+            <h3>{ getStoreName({userId, vendors}) }</h3>
+            <Shop
+                noBanner={true}
                 items={items.slice((page - 1) * itemsPerPage, page * itemsPerPage)}
                 itemClick={addToCart}
                 pages={Math.ceil(items.length / itemsPerPage)}
@@ -47,14 +46,15 @@ export const CategoryPage = ({ setCategory, itemsPerPage, items, match, authed, 
 }
 
 const mapStateToProps = createStructuredSelector({
-    items: makeSelectItemsInCategory(),
+    items: makeSelectCurrentVendorItems(),
+    vendors: makeSelectVendors(),
     itemsPerPage: makeSelectItemsPerPage(),
     authed: makeSelectIsAuthed()
 })
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setCategory: (cat) => dispatch(Actions.setCategory(cat)),
+        setCurrentVendor: (userId) => dispatch(Actions.setCurrentVendor(userId)),
         addToCart: ({itemId}) => dispatch(Actions.addToCart(itemId))
     }
 }
@@ -64,4 +64,4 @@ const withConnect = connect(
     mapDispatchToProps
 )
 
-export default compose(withConnect, memo)(CategoryPage);
+export default compose(withConnect, memo)(StorePage);

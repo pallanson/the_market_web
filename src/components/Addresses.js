@@ -1,27 +1,23 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../index.css';
-import Carousel from 'react-bootstrap/Carousel';
 import Item from './Item'
-import Salt_Sale from '../img/salt_banner.png';
 
-// Map Items to cards
-export const ItemList = ({ items = [], itemClick, authed }) => (
+export const AddressList = ({ addresses = [], itemClick, authed }) => (
     <div className="row">
-        {items.map((item, key) =>
+        {addresses.map((item, key) =>
             <Item item={item} authed={authed} key={key} onClick={itemClick} />
         )}
     </div>
 )
 
-const Shop = ({
-    items,
-    pages,
-    page,
-    authed,
-    noBanner = false,
-    setPage = () => {},
-    itemClick}) => {
+const Addresses = ({
+                  items,
+                  pages,
+                  page,
+                  authed,
+                  setPage = () => {},
+                  itemClick}) => {
 
     if (items.length === 0) {
         return (
@@ -30,37 +26,12 @@ const Shop = ({
             </div>
         )
     }
-    
+
     return (
         <div className="col-lg-9 float-right shop">
-            { !noBanner && (
-                <Carousel className="my-4">
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src={Salt_Sale}
-                            alt="Salt Sale"
-                        />
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src="http://placehold.it/900x350"
-                            alt="Salt Sale"
-                        />
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src="http://placehold.it/900x350"
-                            alt="Salt Sale"
-                        />
-                    </Carousel.Item>
-                </Carousel>
-            )}
 
-            <ItemList items={items} authed={authed} itemClick={itemClick}/>
-            
+            <AddressList addresses={addresses} authed={authed} itemClick={itemClick}/>
+
             <div className="row col-12 justify-content-center">
                 <nav>
                     <ul className="pagination">
@@ -71,9 +42,9 @@ const Shop = ({
                             </button>
                         </li>
                         {
-                            [...Array(pages)].map((_, i) => 
+                            [...Array(pages)].map((_, i) =>
                                 <li key={i} className={`page-item ${page === (i + 1) ? 'active' : ''}`}>
-                                    <button 
+                                    <button
                                         className="page-link"
                                         onClick={() => setPage(i + 1)}
                                     >
@@ -94,4 +65,4 @@ const Shop = ({
     )
 };
 
-export default Shop;
+export default Addresses;

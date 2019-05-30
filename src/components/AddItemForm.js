@@ -1,14 +1,14 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../index.css';
-import { Link } from 'react-router-dom';
 
 export default class AddItemForm extends React.Component {
     state = {
         name: '',
         price: '',
         description: '',
-        category: ''
+        category: '',
+        imageurl: ''
     };
 
     handleInputChange = (event) => {
@@ -22,11 +22,11 @@ export default class AddItemForm extends React.Component {
     }
 
     render() {
-        const { addItem } = this.props
-        const { name, price, description, category } = this.state
+        const { createItem, vendorId } = this.props
+        const { imageurl, name, price, description, category } = this.state
         return (<div className="register-form">
-            <form onSubmit={evt => addItem(evt, name, price, description, category)}>
-                <h1>Edit Account Information</h1>
+            <form onSubmit={evt => createItem(evt, name, price, description, category, vendorId, imageurl)}>
+                <h1>Create Item</h1>
                 <div className="form-group row">
                     <label htmlFor="name" className="col-md-3 col-form-label text-md-right">Name</label>
                     <div className="col-md-8">
@@ -51,9 +51,14 @@ export default class AddItemForm extends React.Component {
                         <input onChange={this.handleInputChange} type="text" id="category" className="form-control" name="category" required/>
                     </div>
                 </div>
+                <div className="form-group row">
+                    <label htmlFor="imageurl" className="col-md-3 col-form-label text-md-right">Image URL</label>
+                    <div className="col-md-8">
+                        <input onChange={this.handleInputChange} type="text" id="imageurl" className="form-control" name="imageurl" required/>
+                    </div>
+                </div>
                 <div className="col-md-10 offset-md-2">
-                    <Link to="/login" className="btn btn-link"> Create Vendor Account </Link>
-                    <button type="submit" className="btn btn-primary">Save Changes</button>
+                    <button type="submit" className="btn btn-primary">Create Item</button>
                 </div>
             </form>
         </div>)

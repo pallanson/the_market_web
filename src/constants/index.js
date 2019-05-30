@@ -13,6 +13,18 @@ export const CategoryPrettyNames = {
     SHOW_MISC: 'Miscellaneous',
     SHOW_SERVICES: 'Services'
 }
+export const AccountOptions = {
+    ACCOUNT_INFORMATION: 'account',
+    SHOW_PAYMENT: 'account/payments',
+    SHOW_ADDRESSES: 'account/addresses',
+    VENDOR_PAGE: 'account/vendor',
+}
+export const AccountPrettyOptions = {
+    ACCOUNT_INFORMATION: 'Account Information',
+    SHOW_PAYMENT: 'Payment Options',
+    SHOW_ADDRESSES: 'Address Options',
+    VENDOR_PAGE: 'Vendor Options',
+}
 export const initialState = {
     currentUser: {},
     cart: [],
@@ -22,8 +34,11 @@ export const initialState = {
     currentItem: null,
     currentStore: [],
     currentReviews: [],
+    currentVendor: null,
     paymentMethods: [],
-    vendors: [],
+    currentPaymentMethod: null,
+    currentAddress: null,
+    vendors: {},
     searchResults: [],
     searchString: '',
     currentCategory: CategoryFilters.SHOW_FOOD,
@@ -33,7 +48,9 @@ export const initialState = {
     requestPayload: {},
     itemsPerPage: 3,
     loading: false,
-    order: null,
+    order: {
+        items: []
+    },
     error: null,
     loggedIn: false,
     token: null

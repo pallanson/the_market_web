@@ -1,23 +1,39 @@
-import { Redirect } from 'react-router-dom'
-import React from 'react'
+import React, {memo} from 'react'
+import Actions from '../../actions'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+import { createStructuredSelector } from 'reselect'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../index.css';
-import auth from '../../utils/auth';
-import EditProfileForm from "../../components/EditProfileForm";
+import { makeSelectIsAuthed, makeSelectError, makeSelectCurrentUser } from '../../selectors'
+import AccountSidebar from '../../components/AccountSidebar'
+import AccountInfo from "../../components/AccountInfo"
 
-export default (props) => {
-    const isAuthed = auth.getToken() != null
+export const AccountPage = ({currentUser, deleteUser}) => {
 
-    return isAuthed ? (
-        <div className="container" align="center">
-            <EditProfileForm register={props} />
+    return (
+        <div className="container row" align="center">
+            <AccountSidebar/>
+            <AccountInfo {...currentUser} deleteUser={deleteUser}/>
         </div>
-    ) : (
-        <Redirect
-            to={{
-                pathname: '/',
-                state: { from: props.location },
-            }}
-        />
     )
 }
+
+const mapStateToProps = createStructuredSelector({
+    authed: makeSelectIsAuthed(),
+    error: makeSelectError(),
+    currentUser: makeSelectCurrentUser()
+})
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      deleteUser: () => {}
+    }
+  }
+
+const withConnect = connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+  
+export default compose(withConnect, memo)(AccountPage);
