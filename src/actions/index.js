@@ -35,7 +35,7 @@ const { Types, Creators } = createActions({
     getAllItems: null,
     getItem: ["itemId"],
     getItemByName: ["name"],
-    createItem: ["name", "price", "description", "category", "vendorId"],
+    createItem: ["name", "price", "description", "category", "vendorId", "imageUrl"],
     updateItem: ["itemId", "name", "price", "description", "category"],
     deleteItem: ["itemId"],
     setCategory: ["category"],

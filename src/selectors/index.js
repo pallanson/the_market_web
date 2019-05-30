@@ -176,7 +176,21 @@ const makeSelectIsCurrentUserVendor = () =>
     createSelector(
         makeSelectVendors(),
         makeSelectCurrentUser(),
-        (vendors, user) => !!vendors[user.userId]
+        (vendors, user) => {
+            if (!user) return false
+            return !!vendors[user.userId]
+        }
+    )
+
+const makeSelectCurrentUserVendorId = () => 
+    createSelector(
+        makeSelectVendors(),
+        makeSelectCurrentUser(),
+        (vendors, user) => {
+            if (!user) return null
+            if (!vendors[user.userId]) return null
+            return vendors[user.userId].vendorId
+        }
     )
 
 const makeSelectCurrentVendorItems = () =>
@@ -201,6 +215,7 @@ export {
     makeSelectVendorsArray,
     makeSelectCartTotal,
     makeSelectCurrentVendor,
+    makeSelectCurrentUserVendorId,
     makeSelectCurrentCategory,
     makeSelectCurrentPaymentMethod,
     makeSelectCurrentVendorItems,

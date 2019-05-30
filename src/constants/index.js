@@ -15,9 +15,9 @@ export const CategoryPrettyNames = {
 }
 export const AccountOptions = {
     ACCOUNT_INFORMATION: 'account',
-    SHOW_PAYMENT: 'payments',
-    SHOW_ADDRESSES: 'addresses',
-    VENDOR_PAGE: 'vendor',
+    SHOW_PAYMENT: 'account/payments',
+    SHOW_ADDRESSES: 'account/addresses',
+    VENDOR_PAGE: 'account/vendor',
 }
 export const AccountPrettyOptions = {
     ACCOUNT_INFORMATION: 'Account Information',

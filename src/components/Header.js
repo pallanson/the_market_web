@@ -33,13 +33,6 @@ export default ({isAuthed = false, currentUser = {}, cartItems = 0, isVendor = f
                                 <li>
                                     <Link className="nav-link" to="/vendor">Vendors</Link>
                                 </li>
-                                {
-                                    isVendor && (
-                                        <li>
-                                            <Link className="nav-link" to={`/vendors/${currentUser.userId}`}>Logout</Link>
-                                        </li>
-                                    )
-                                }
                                 <li>
                                     <Link className="nav-link" to="/account">Account</Link>
                                 </li>

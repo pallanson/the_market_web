@@ -26,14 +26,14 @@ export default class CreateVendorForm extends React.Component {
                 <form onSubmit={evt => createVendor(evt, name)}>
                     <h1>Create a New Vendor Account</h1>
                     <div className="form-group row">
-                        <label htmlFor="name" className="col-md-4 col-form-label text-md-right">Vendor Name</label>
+                        <label htmlFor="name" className="col-md-4 col-form-label text-md-right">Shop Name</label>
                         <div className="col-md-7">
                             <input onChange={this.handleInputChange} type="text" id="name" className="form-control"
                                    name="name" required autoFocus/>
                         </div>
                     </div>
                     <div className="col-md-10 offset-md-2">
-                        <Link to="/login" className="btn btn-link"> Create Vendor Account </Link>
+                    <button type="submit" className="btn btn-primary">Become Vendor</button>
                     </div>
                 </form>
             </div>)
