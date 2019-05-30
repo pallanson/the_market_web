@@ -41,17 +41,150 @@ const {
     LOAD_LOCAL_USER
 } = Types
 
-function * login(action) { }
-function * register(action) { }
+function * login(action) { 
+    const res = await post(`user/login`, {
+            email,
+            password
+        })
+        const { token, userId } = res.data
+        auth.setToken(token, true)
+        const userRes = await get(`user/${userId}`)
+        const { data: currentUser } = userRes
+        auth.setUserInfo(currentUser)
+}
+function * register(action) { 
+    try {
+        const registerRes = await post(`user/`, {
+            email,
+            firstName,
+            lastName,
+            password
+        })
+        const { data: currentUser } = registerRes
+        const res = await post(`user/login`, {
+            email,
+            password
+        })
+        const { token } = res.data
+        return {
+            ...state,
+            token,
+            email,
+            password,
+            currentUser
+        }
+    } catch (error) {
+        return {
+            ...state,
+            error
+        }
+    }
+}
 function * logout(action) { }
 function * get_addresses(action) { }
 function * add_address(action) { }
-function * edit_address(action) { }
-function * remove_address(action) { }
-function * get_cart(action) { }
-function * add_to_cart(action) { }
-function * remove_from_cart(action) { }
-function * checkout(action) { }
+function * edit_address(action) {
+    const {
+        addressId,
+        name,
+        addressLineOne,
+        addressLineTwo,
+        city,
+        country,
+        postcode
+    } = action
+    try {
+        const { currentUser } = state
+        await put(`address/${addressId}`, {
+            name,
+            addressLineOne,
+            addressLineTwo,
+            city,
+            country,
+            postcode
+        })
+        const { data } = await get(`address/user/${currentUser.userId}`)
+        return {
+            ...state,
+            addresses: [ ...data ]
+        }
+    } catch(error) {
+        return {
+            ...state,
+            error,
+        }
+    }
+ }
+function * remove_address(action) { 
+    const { addressId } = action
+    try {
+        const { currentUser } = state
+        await del(`address/user/${addressId}`)
+        const { data } = await get(`address/user/${currentUser.userId}`)
+        return {
+            ...state,
+            addresses: [ ...data ]
+        }
+    } catch(error) {
+        return {
+            ...state,
+            error,
+        }
+    }
+}
+function * get_cart(action) { 
+    try {
+        const { data } = await get(`cart`)
+        return {
+            ...state,
+            cart: [ ...data.items ]
+        }
+    } catch(error) {
+        return {
+            ...state,
+            error,
+        }
+    }
+}
+function * add_to_cart(action) {
+    try {
+        await put(`cart/add`, { itemId })
+        const { data } = await get(`cart`)
+        return {
+            ...state,
+            cart: [ ...data.items ]
+        }
+    } catch(error) {
+        return {
+            ...state,
+            error,
+        }
+    }
+ }
+function * remove_from_cart(action) { 
+    try {
+        await put(`cart/remove`, { itemId })
+    } catch(error) {
+        return {
+            ...state,
+            error,
+        }
+    }
+}
+function * checkout(action) {
+    try {
+        const { data: order } = await post(`cart/checkout`, { addressId })
+        return {
+            ...state,
+            order
+        }
+    } catch(error) {
+        return {
+            ...state,
+            error,
+        }
+    }
+}
 function * get_reviews(action) { }
 function * post_review(action) { }
 function * edit_review(action) { }
@@ -62,7 +195,20 @@ function * get_payment_option(action) { }
 function * get_payment_options(action) { }
 function * edit_payment_option(action) { }
 function * delete_payment_option(action) { }
-function * get_all_vendors(action) { }
+function * get_all_vendors(action) { 
+    try {
+        const { data: vendors } = await get(`vendor`)
+        return {
+            ...state,
+            vendors
+        }
+    } catch(error) {
+        return {
+            ...state,
+            error,
+        }
+    }
+}
 function * get_vendor(action) { }
 function * get_vendor_by_name(action) { }
 function * get_store(action) { }
@@ -75,7 +221,24 @@ function * create_item(action) { }
 function * update_item(action) { }
 function * delete_item(action) { }
 function * set_category(action) { }
-function * fetch_user(action) { }
+function * fetch_user(action) {
+    try {
+        const res = await get(`user/${userId}`)
+        const { data } = res
+        return {
+            ...state,
+            users: {
+                ...state.users,
+                [userId]: data
+            }
+        }
+    } catch (error) {
+        return {
+            ...state,
+            error
+        }
+    }
+ }
 
 export default function * rootSaga() {
     yield all([
