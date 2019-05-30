@@ -1,26 +1,26 @@
-import React from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../index.css';
+import Cooler from "../img/cooler.png";
 import {Link} from "react-router-dom";
-import Pepper from '../../img/bell_pepper.png';
-import Pikachu from '../../img/pikachu.png';
-import Ice from '../../img/ice.png';
-import Carrots from '../../img/carrot.png';
-import Cooler from '../../img/cooler.png';
-import Shirt from '../../img/shirt.png';
+import Pepper from "../img/bell_pepper.png";
+import Pikachu from "../img/pikachu.png";
+import Ice from "../img/ice.png";
+import Carrots from "../img/carrot.png";
+import Shirt from "../img/shirt.png";
+import React from "react";
 
-// Map Items to cards
 function ItemList(props) {
     const items = props.items;
     const listItems = items.map((item) => (
-            <div className="col-lg-12 col-md-6 mb-4">
+            <div className="col-lg-4 col-md-6 mb-4 float-left">
                 <div className="card h-100">
-                    <img id="img" className="card-img-top" src={Cooler} alt=""/>
+                    <a href="#"><img id="img" className="card-img-top" src={Cooler} alt=""/></a>
                     <div className="card-body">
                         <h4 className="card-title">
                             <Link to="/item">{item.title}</Link>
                         </h4>
                         <h5 id="price">{item.price}</h5>
+                        <p id="description" className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                            Amet numquam
+                            aspernatur! Lorem ipsum dolor sit amet.</p>
                     </div>
                     <div className="card-footer">
                         <small className="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
@@ -45,19 +45,13 @@ const items = [
     {id: 7, img: {Pepper}, title: "Purple Bell Pepper", price: 39},
     {id: 8, img: {Pepper}, title: "Yellow Bell Pepper", price: 39},
 ];
-const Shop = () => (
-    <div className="col-lg-9 mt-5 float-right">
-        <h2>Cart</h2>
-        <div className="row">
-            <ItemList items={items}/>
-        </div>
-        <div className="col-lg-8">
-            <Link to="/checkout">
-                <button className="btn_add" onClick="">Checkout</button>
-            </Link>
-        </div>
-        <br/><br/><br/><br/><br/><br/>
-    </div>
-);
 
-export default Shop;
+export default class VendorItemList extends React.Component {
+    render() {
+        return (
+            <div className="row">
+                <ItemList items={items}/>
+            </div>
+        )
+    }
+}
