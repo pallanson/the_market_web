@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 export default class RegisterForm extends React.Component {
     state = {
         email: '',
-        firstName: '',
-        lastName: '',
+        name: '',
+        lastname: '',
         password: ''
     };
 
@@ -22,11 +22,12 @@ export default class RegisterForm extends React.Component {
     }
 
     render() {
-        const { register } = this.props
-        const { email, firstName, lastName, password } = this.state
+        const { error, register } = this.props
+        const { email, name, lastname, password } = this.state
         return (<div className="register-form">
-            <form onSubmit={evt => register(evt, email, firstName, lastName, password)}>
+            <form onSubmit={evt => register(evt, email, name, lastname, password)}>
                 <h1>Create a New Account</h1>
+                { error && (<p className="error">{ error }</p>) }
                 <div className="form-group row">
                     <label htmlFor="email" className="col-md-3 col-form-label text-md-right">E-Mail</label>
                     <div className="col-md-8">
@@ -34,15 +35,15 @@ export default class RegisterForm extends React.Component {
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label htmlFor="firstName" className="col-md-3 col-form-label text-md-right">First Name</label>
+                    <label htmlFor="name" className="col-md-3 col-form-label text-md-right">First Name</label>
                     <div className="col-md-8">
-                        <input onChange={this.handleInputChange} type="text" id="firstName" className="form-control" name="email" required autoFocus/>
+                        <input onChange={this.handleInputChange} type="text" id="name" className="form-control" name="name" required autoFocus/>
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label htmlFor="lastName" className="col-md-3 col-form-label text-md-right">Last Name</label>
+                    <label htmlFor="lastname" className="col-md-3 col-form-label text-md-right">Last Name</label>
                     <div className="col-md-8">
-                        <input onChange={this.handleInputChange} type="text" id="lastName" className="form-control" name="email" required autoFocus/>
+                        <input onChange={this.handleInputChange} type="text" id="lastname" className="form-control" name="lastname" required autoFocus/>
                     </div>
                 </div>
                 <div className="form-group row">

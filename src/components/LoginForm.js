@@ -20,11 +20,12 @@ export default class LoginForm extends React.Component {
     }
 
     render() {
-        const { login } = this.props
+        const { login, error } = this.props
         const { email, password } = this.state
         return (<div className="login-form">
             <form onSubmit={evt => login(evt, email, password)}>
                 <h1>Login</h1>
+                { error && (<p className="error">{ error }</p>) }
                 <div className="form-group row">
                     <label htmlFor="email" className="col-md-3 col-form-label text-md-right">E-Mail</label>
                     <div className="col-md-8">

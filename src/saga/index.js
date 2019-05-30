@@ -13,7 +13,8 @@ import auth from '../utils/auth'
 const {
     apiSuccess,
     apiFailure,
-    apiRequest
+    apiRequest,
+    clearError
 } = Actions
 const {
     LOGIN,
@@ -72,8 +73,7 @@ function * login(action) {
             token
         }))
     } catch(error) {
-        const { message } = error.response.data
-        yield put(apiFailure(message))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * register(action) {
@@ -92,15 +92,18 @@ function * register(action) {
             password
         })
         const { token } = res.data
+        auth.setToken(token, true)
+        auth.setUserInfo(currentUser)
         
         yield put(apiSuccess({
             token,
+            loggedIn: true,
             email,
             password,
             currentUser
         }))
     } catch (error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * get_addresses(action) {
@@ -114,7 +117,7 @@ function * get_addresses(action) {
         }))
     } catch(error) {
         
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * add_address(action) {
@@ -145,7 +148,7 @@ function * add_address(action) {
             ]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * edit_address(action) {
@@ -175,7 +178,7 @@ function * edit_address(action) {
             addresses: [ ...data ]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
  }
 function * remove_address(action) {
@@ -190,7 +193,7 @@ function * remove_address(action) {
             addresses: [ ...data ]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * get_cart(action) { 
@@ -202,7 +205,7 @@ function * get_cart(action) {
             cart: [ ...data.items ]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * add_to_cart(action) {
@@ -216,7 +219,7 @@ function * add_to_cart(action) {
             cart: [ ...data.items ]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
  }
 function * remove_from_cart(action) {
@@ -226,7 +229,7 @@ function * remove_from_cart(action) {
         yield call(putReq, `cart/remove`, { itemId })
         yield put(apiSuccess())
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * checkout(action) {
@@ -239,7 +242,7 @@ function * checkout(action) {
             order
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * get_reviews(action) {
@@ -260,7 +263,7 @@ function * get_reviews(action) {
             currentReviews: [...reviews]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * post_review(action) {
@@ -282,7 +285,7 @@ function * post_review(action) {
             currentReviews: [...reviews]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * edit_review(action) {
@@ -304,7 +307,7 @@ function * edit_review(action) {
             currentReviews: [...reviews]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * remove_review(action) {
@@ -326,7 +329,7 @@ function * remove_review(action) {
             currentReviews: [...reviews]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * update_rating(action) {
@@ -335,7 +338,7 @@ function * update_rating(action) {
     try {
         yield put(apiSuccess({ }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * add_payment_option(action) {
@@ -352,7 +355,7 @@ function * add_payment_option(action) {
             ]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * get_payment_option(action) {
@@ -366,7 +369,7 @@ function * get_payment_option(action) {
             paymentMethods: [ ...paymentMethods, data ]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * get_payment_options(action) {
@@ -378,7 +381,7 @@ function * get_payment_options(action) {
             paymentMethods: [ ...data ]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * edit_payment_option(action) {
@@ -392,7 +395,7 @@ function * edit_payment_option(action) {
             paymentMethods: [ ...data ]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * delete_payment_option(action) {
@@ -406,7 +409,7 @@ function * delete_payment_option(action) {
             paymentMethods: [ ...data ]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * get_all_vendors(action) {
@@ -418,7 +421,7 @@ function * get_all_vendors(action) {
             vendors
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * get_vendor(action) {
@@ -435,7 +438,7 @@ function * get_vendor(action) {
             ]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     } 
 }
 function * get_vendor_by_name(action) {
@@ -452,7 +455,7 @@ function * get_vendor_by_name(action) {
             ]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * get_store(action) {
@@ -465,7 +468,7 @@ function * get_store(action) {
             currentStore: [ ...data.items ]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * create_vendor(action) {
@@ -482,7 +485,7 @@ function * create_vendor(action) {
             ]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * update_vendor(action) {
@@ -499,7 +502,7 @@ function * update_vendor(action) {
             ]
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * get_all_items(action) {
@@ -511,7 +514,7 @@ function * get_all_items(action) {
             items
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * get_item(action) {
@@ -524,7 +527,7 @@ function * get_item(action) {
             currentItem: item
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * get_item_by_name(action) {
@@ -537,7 +540,7 @@ function * get_item_by_name(action) {
             currentItem: item
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * create_item(action) {
@@ -551,7 +554,7 @@ function * create_item(action) {
             items
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * update_item(action) {
@@ -565,7 +568,7 @@ function * update_item(action) {
             items
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * delete_item(action) {
@@ -579,7 +582,7 @@ function * delete_item(action) {
             items
         }))
     } catch(error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
 }
 function * fetch_user(action) {
@@ -596,9 +599,13 @@ function * fetch_user(action) {
             }
         }))
     } catch (error) {
-        yield put(apiFailure(error))
+        yield put(apiFailure(error.response.data.message))
     }
- }
+}
+
+function * clear_error() {
+    yield put(clearError())
+}
 
 export default function * rootSaga() {
     yield all([
@@ -634,6 +641,7 @@ export default function * rootSaga() {
         takeLatest(CREATE_ITEM, create_item),
         takeLatest(UPDATE_ITEM, update_item),
         takeLatest(DELETE_ITEM, delete_item),
-        takeLatest(FETCH_USER, fetch_user)
+        takeLatest(FETCH_USER, fetch_user),
+        takeLatest('@@router/LOCATION_CHANGE', clear_error)
     ])
 }

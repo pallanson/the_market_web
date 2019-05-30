@@ -41,7 +41,8 @@ const { Types, Creators } = createActions({
     fetchUser: ["userId"],
     apiRequest: ["endpoint", "payload"],
     apiSuccess: ["payload"],
-    apiFailure: ["error"]
+    apiFailure: ["error"],
+    clearError: null
 });
 
 export { Types };

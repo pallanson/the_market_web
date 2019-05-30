@@ -7,6 +7,7 @@ const {
     API_SUCCESS,
     API_FAILURE,
     API_REQUEST,
+    CLEAR_ERROR,
     LOGOUT,
     SET_CATEGORY,
     SEARCH,
@@ -67,6 +68,11 @@ export const logout = (state = initialState) => {
     }
 }
 
+export const clearError = (state = initialState) => ({
+    ...state,
+    error: null
+})
+
 /* Connect Reducers to Types */
 export default createReducer(initialState, {
     [SET_CATEGORY]: setCategory,
@@ -75,5 +81,6 @@ export default createReducer(initialState, {
     [API_SUCCESS]: apiSuccess,
     [API_FAILURE]: apiFailure,
     [API_REQUEST]: apiRequest,
+    [CLEAR_ERROR]: clearError,
     [LOGOUT]: logout
 })

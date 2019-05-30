@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect'
 import { initialState } from '../constants'
-import { search } from '../reducers';
 
 const selectApp = state => state.app || initialState
 
