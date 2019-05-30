@@ -23,6 +23,8 @@ import LoginPage from '../LoginPage'
 import LogoutPage from '../LogoutPage'
 import AccountPage from '../AccountPage'
 import SitemapPage from '../SitemapPage'
+import PaymentsPage from '../PaymentsPage'
+import AddressesPage from '../AddressesPage'
 import VendorPage from '../VendorPage'
 import RegisterPage from '../RegisterPage'
 import PrivateRoute from '../PrivateRoute'
@@ -53,6 +55,8 @@ const App = ({ loadUser, loadItems, loadCart, authed, user, cartItems }) => {
             <Route path="/sitemap" component={SitemapPage} />
             <PrivateRoute path="/logout" component={LogoutPage} />
             <PrivateRoute path="/account" component={AccountPage} />
+            <PrivateRoute path="/payments" component={PaymentsPage}/>
+            <PrivateRoute path="/addresses" component={AddressesPage}/>
             <PrivateRoute path="/vendor" component={VendorPage} />
             <PrivateRoute path="/checkout" component={CheckoutPage} />
             <PrivateRoute path="/cart" component={CartPage} />

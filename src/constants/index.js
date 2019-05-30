@@ -13,6 +13,18 @@ export const CategoryPrettyNames = {
     SHOW_MISC: 'Miscellaneous',
     SHOW_SERVICES: 'Services'
 }
+export const AccountOptions = {
+    ACCOUNT_INFORMATION: 'account',
+    SHOW_PAYMENT: 'payments',
+    SHOW_ADDRESSES: 'addresses',
+    VENDOR_PAGE: 'vendor',
+}
+export const AccountPrettyOptions = {
+    ACCOUNT_INFORMATION: 'Account Information',
+    SHOW_PAYMENT: 'Payment Options',
+    SHOW_ADDRESSES: 'Address Options',
+    VENDOR_PAGE: 'Vendor Options',
+}
 export const initialState = {
     currentUser: {},
     cart: [],

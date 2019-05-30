@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../index.css';
 import auth from '../../utils/auth';
 import AccountSidebar from '../../components/AccountSidebar'
-import AccountInfo from "../../components/AccountInfo"
+import AddPaymentForm from "../../components/AddPaymentForm";
 
 export default (props) => {
     const isAuthed = auth.getToken() != null
@@ -12,7 +12,7 @@ export default (props) => {
     return isAuthed ? (
         <div className="container" align="center">
             <AccountSidebar/>
-            <AccountInfo />
+            <AddPaymentForm />
         </div>
     ) : (
         <Redirect
