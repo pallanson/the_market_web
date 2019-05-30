@@ -1,0 +1,63 @@
+import React from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../../index.css';
+import {Link} from "react-router-dom";
+import Pepper from '../../img/bell_pepper.png';
+import Pikachu from '../../img/pikachu.png';
+import Ice from '../../img/ice.png';
+import Carrots from '../../img/carrot.png';
+import Cooler from '../../img/cooler.png';
+import Shirt from '../../img/shirt.png';
+
+// Map Items to cards
+function ItemList(props) {
+    const items = props.items;
+    const listItems = items.map((item) => (
+            <div className="col-lg-12 col-md-6 mb-4">
+                <div className="card h-100">
+                    <img id="img" className="card-img-top" src={Cooler} alt=""/>
+                    <div className="card-body">
+                        <h4 className="card-title">
+                            <Link to="/item">{item.title}</Link>
+                        </h4>
+                        <h5 id="price">{item.price}</h5>
+                    </div>
+                    <div className="card-footer">
+                        <small className="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                        <button className="btn_purchase" onClick="">Remove</button>
+                    </div>
+                </div>
+            </div>
+        )
+    );
+    return (
+        <ul>{listItems}</ul>
+    )
+}
+
+const items = [
+    {id: 1, img: {Pepper}, title: "Red Bell Pepper", price: 59},
+    {id: 2, img: {Pikachu}, title: "Pikachu Plush", price: 250},
+    {id: 3, img: {Ice}, title: "Ice", price: 100},
+    {id: 4, img: {Carrots}, title: "Carrots", price: 25},
+    {id: 5, img: {Cooler}, title: "Cooler", price: 399},
+    {id: 6, img: {Shirt}, title: "Shirt", price: 199},
+    {id: 7, img: {Pepper}, title: "Purple Bell Pepper", price: 39},
+    {id: 8, img: {Pepper}, title: "Yellow Bell Pepper", price: 39},
+];
+const Shop = () => (
+    <div className="col-lg-9 mt-5 float-right">
+        <h2>Cart</h2>
+        <div className="row">
+            <ItemList items={items}/>
+        </div>
+        <div className="col-lg-8">
+            <Link to="/checkout">
+                <button className="btn_add" onClick="">Checkout</button>
+            </Link>
+        </div>
+        <br/><br/><br/><br/><br/><br/>
+    </div>
+);
+
+export default Shop;
