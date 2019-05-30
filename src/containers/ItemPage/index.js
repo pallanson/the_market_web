@@ -13,7 +13,8 @@ import {
     makeSelectError,
     makeSelectIsAuthed,
     makeSelectCurrentReviews,
-    makeSelectUsers
+    makeSelectUsers,
+    makeSelectMyReview
 } from '../../selectors';
 import Categories from "../../components/Categories"
 
@@ -24,6 +25,8 @@ export const ItemPage = ({
     getUser,
     reviews = [],
     getReviews,
+    currentReview,
+    editReview,
     error,
     addReview,
     authed,
@@ -69,6 +72,11 @@ export const ItemPage = ({
                     users={users}
                     authed={authed}
                     getUser={getUser}
+                    currentReview={currentReview}
+                    editReview={(evt, title, text, rating) => {
+                        evt && evt.preventDefault();
+                        editReview(itemId, title, text, rating)
+                    }}
                     addReview={(evt, title, text, rating) => {
                         evt && evt.preventDefault();
                         addReview(itemId, title, text, rating)
@@ -84,7 +92,8 @@ const mapStateToProps = createStructuredSelector({
     reviews: makeSelectCurrentReviews(),
     error: makeSelectError(),
     authed: makeSelectIsAuthed(),
-    users: makeSelectUsers()
+    users: makeSelectUsers(),
+    currentReview: makeSelectMyReview()
 })
 
 const mapDispatchToProps = (dispatch) => {
@@ -92,6 +101,9 @@ const mapDispatchToProps = (dispatch) => {
         setItem: (itemId) => dispatch(Actions.setCurrentItem(itemId)),
         getUser: (userId) => dispatch(Actions.fetchUser(userId)),
         getReviews: (itemId) => dispatch(Actions.getReviews(itemId)),
+        editReview: (itemId, title, text, rating) => {
+            dispatch(Actions.editReview(itemId, title, text, rating))
+        },
         addReview: (itemId, title, text, rating) => {
             dispatch(Actions.postReview(itemId, title, text, rating))
         },
