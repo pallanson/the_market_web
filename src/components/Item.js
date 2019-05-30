@@ -28,11 +28,11 @@ const Item = ({item, onClick = () => {}}) => {
     } = item
     return (
         <div className="col-lg-4 col-md-6 mb-4">
-            <div className="card h-100">
+            <div className="card">
                 <Link to={`item/${itemId}`}><img id="img" className="card-img-top" src={imageUrl ? imageUrl : Cooler} alt=""/></Link>
                 <div className="card-body">
                     <h4 className="card-title">
-                        <Link id="title" to={`item/${itemId}`}>{ name }</Link>
+                        <Link id="title" to={`/item/${itemId}`}>{ name }</Link>
                     </h4>
                     <h5 id="price">${price}</h5>
                     <p id="description" className="card-text">{ description }</p>

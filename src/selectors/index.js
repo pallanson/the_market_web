@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect'
+import { createSelector, createSelectorCreator } from 'reselect'
 import { initialState } from '../constants'
 
 const selectApp = state => state.app || initialState
@@ -58,8 +58,7 @@ const makeSelectItemsInCategory = () =>
         makeSelectItemsArray(),
         makeSelectCurrentCategory(),
         (items, currentCategory) => {
-            console.log(items)
-            return items.filter(item => item.category === currentCategory)
+            return items.filter(item => item.category.toLowerCase() === currentCategory)
         }
     )
 
@@ -67,6 +66,12 @@ const makeSelectSearchString = () =>
     createSelector(
         selectApp,
         ({searchString}) => searchString 
+    )
+
+const makeSelectItemsPerPage = () =>
+    createSelector(
+        selectApp,
+        ({itemsPerPage}) => itemsPerPage
     )
 
 const makeSelectSearchResults = () =>
@@ -115,6 +120,7 @@ export {
     makeSelectItemsInCategory,
     makeSelectLoading,
     makeSelectPaymentMethods,
+    makeSelectItemsPerPage,
     makeSelectSearchResults,
     makeSelectSearchString,
     makeSelectUsers,
