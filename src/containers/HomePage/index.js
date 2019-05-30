@@ -6,15 +6,17 @@ import { compose } from 'redux'
 import { connect } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../index.css';
+import SearchForm from "../../components/SearchForm"
 import Categories from "../../components/Categories";
 
 import Shop from "../../components/Shop";
 
-export const HomePage = ({ items = [], itemsPerPage, authed, addToCart }) => {
+export const HomePage = ({ items = [], onSearch, itemsPerPage, authed, addToCart }) => {
     const [page, setPage] = useState(1)
 
     return (
     <div className="container">
+        <SearchForm onSearch={onSearch} />
         <Categories/>
         <Shop 
             items={items.slice((page - 1) * itemsPerPage, page * itemsPerPage)}
@@ -35,7 +37,8 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addToCart: ({itemId}) => dispatch(Actions.addToCart(itemId))
+        addToCart: ({itemId}) => dispatch(Actions.addToCart(itemId)),
+        onSearch: (searchStr) => dispatch(Actions.search(searchStr))
     }
 }
 

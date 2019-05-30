@@ -6,6 +6,7 @@ const { Types, Creators } = createActions({
     register: ["email", "firstName", "lastName", "password"],
     logout: null,
     getAddresses: null,
+    setCurrentVendor: ["userId"],
     setCurrentAddress: ["address"],
     setCurrentPaymentMethod: ["method"],
     addAddress: ["name", "addressLineOne", "addressLineTwo", "city", "country", "postcode"],
