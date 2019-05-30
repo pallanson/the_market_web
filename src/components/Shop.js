@@ -1,8 +1,8 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../index.css';
+import { Link } from "react-router-dom";
 import Carousel from 'react-bootstrap/Carousel';
-import Item from './Item';
 import Salt_Sale from '../img/salt_banner.png';
 import Pepper from '../img/bell_pepper.png';
 import Pikachu from '../img/pikachu.png';
@@ -10,9 +10,8 @@ import Ice from '../img/ice.png';
 import Carrots from '../img/carrot.png';
 import Cooler from '../img/cooler.png';
 import Shirt from '../img/shirt.png';
-import { Link } from "react-router-dom";
 
-// Map array
+// Map Items to cards
 export const ItemList = ({ items = [], itemClick }) => (
     <ul>
         {items.map((item, key) =>

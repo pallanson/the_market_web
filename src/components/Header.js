@@ -31,6 +31,9 @@ export default ({isAuthed = false, currentUser = {}}) => (
                         isAuthed ? (
                             <React.Fragment>
                                 <li>
+                                    <Link className="nav-link" to="/account">Account</Link>
+                                </li>
+                                <li>
                                     <Link className="nav-link" to="/logout">Logout</Link>
                                 </li>
                             </React.Fragment>

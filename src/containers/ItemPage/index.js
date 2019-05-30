@@ -1,7 +1,55 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../index.css';
+import Reviews from '../../components/Reviews';
+import {Link} from "react-router-dom";
 import Pepper from '../../img/bell_pepper.png';
+
+const reviews = [
+    {
+        id: 1,
+        title: "This thing sucks!",
+        text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,\n" +
+            "                    similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat\n" +
+            "                    laborum. Sequi mollitia, necessitatibus quae sint natus.",
+        rating: "1.5",
+        userName: "Martin Huynh"
+    },
+    {
+        id: 2,
+        title: "I love this thing!",
+        text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,\n" +
+            "                    similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat\n" +
+            "                    laborum. Sequi mollitia, necessitatibus quae sint natus.",
+        rating: "5",
+        userName: "Fernando Valarino"
+    },
+    {
+        id: 3,
+        title: "Meh",
+        text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,\n" +
+            "                    similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat\n" +
+            "                    laborum. Sequi mollitia, necessitatibus quae sint natus.",
+        rating: "2.5",
+        userName: "Philip Allanson"
+    },
+];
+
+// Import Reviews to Cards
+function ReviewList(props) {
+    const reviews = props.reviews;
+    const listReviews = reviews.map((review) => (
+            <div className="card-body">
+                <h3>{review.title}</h3>
+                <small className="text-muted">Posted by {review.userName} on 3/1/17</small>
+                <p>{review.text}</p>
+            </div>
+        )
+    );
+    return (
+        <ul>{listReviews}</ul>
+    )
+}
 
 export default () => (
     <div className="container mb-xl-5">
@@ -18,34 +66,14 @@ export default () => (
                         a central, hollow cavity that contains very small, flat and bitter cream-colored seeds and a
                         thin, spongy white to pale red membrane. Red bell peppers have an aqueous crunch and are
                         sweet with a fruity flavor. </p>
-                    <button className="btn_add" onClick="">Add to Cart</button>
-                    <span className="text-warning">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+                    <Link to="/cart">
+                        <button className="btn_add" onClick="">Add to Cart</button>
+                    </Link>
+                    <span className="text-warning">&#9733; &#9733; &#9733; &#9733; &#9733; </span>
                     5.0 stars
                 </div>
             </div>
-            <div className="card card-outline-secondary my-4">
-                <div className="card-header">
-                    Product Reviews
-                </div>
-                <div className="card-body">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,
-                        similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.
-                        Sequi mollitia, necessitatibus quae sint natus.</p>
-                    <small className="text-muted">Posted by Anonymous on 3/1/17</small>
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,
-                            similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat
-                            laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                        <small className="text-muted">Posted by Anonymous on 3/1/17</small>
-
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam
-                                inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam
-                                aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                            <small className="text-muted">Posted by Anonymous on 3/1/17</small>
-
-                                <a href="#" className="btn btn-success">Leave a Review</a>
-                </div>
-            </div>
+            <Reviews/>
         </div>
     </div>
 );

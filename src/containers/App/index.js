@@ -7,15 +7,19 @@ import { Switch, Route } from 'react-router-dom'
 import { makeSelect, makeSelectIsAuthed, makeSelectCurrentUser } from '../../selectors'
 import Actions from '../../actions'
 import Header from '../../components/Header.js'
-import Index from "../../components/Index";
 import Footer from "../../components/Footer"
 import HomePage from '../HomePage'
+import AboutPage from '../AboutPage'
+import ContactPage from '../ContactPage'
 import CategoryPage from '../CategoryPage'
 import ItemPage from '../ItemPage'
 import CheckoutPage from '../CheckoutPage'
 import CartPage from '../CartPage'
 import LoginPage from '../LoginPage'
 import LogoutPage from '../LogoutPage'
+import AccountPage from '../AccountPage'
+import SitemapPage from '../SitemapPage'
+import VendorPage from '../VendorPage'
 import RegisterPage from '../RegisterPage'
 import PrivateRoute from '../PrivateRoute'
 import NotFound from '../NotFound'
@@ -34,11 +38,16 @@ const App = ({ loadUser, loadItems, authed, user }) => {
         <Header isAuthed={authed} currentUser={user} />
         <Switch>
             <Route exact path="/" component={HomePage} />
+            <Route exact path="/about" component={AboutPage} />
+            <Route exact path="/contact" component={ContactPage} />
             <Route path="/category/:categoryName" component={CategoryPage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/register" component={RegisterPage} />
             <Route path="/item/:itemId" component={ItemPage} />
+            <Route path="/sitemap" component={SitemapPage} />
             <PrivateRoute path="/logout" component={LogoutPage} />
+            <PrivateRoute path="/account" component={AccountPage} />
+            <PrivateRoute path="/vendor" component={VendorPage} />
             <PrivateRoute path="/checkout" component={CheckoutPage} />
             <PrivateRoute path="/cart" component={CartPage} />
             <Route path="" component={NotFound} />
