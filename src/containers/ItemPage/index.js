@@ -116,4 +116,4 @@ const withConnect = connect(
     mapDispatchToProps
 )
 
-export default compose(withConnect, memo)(ItemPage);
+export default compose(withConnect)(ItemPage);

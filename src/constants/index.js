@@ -14,7 +14,7 @@ export const CategoryPrettyNames = {
     SHOW_SERVICES: 'Services'
 }
 export const initialState = {
-    currentUser: null,
+    currentUser: {},
     cart: [],
     items: {},
     users: {},
