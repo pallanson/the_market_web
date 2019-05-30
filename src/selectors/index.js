@@ -121,6 +121,13 @@ const makeSelectUsers = () =>
         ({users}) => users 
     )
 
+const makeSelectMyReview = () =>
+    createSelector(
+        makeSelectCurrentReviews(),
+        makeSelectCurrentUser(),
+        (reviews, currentUser) => reviews.find(review => review.userId === currentUser.userId)
+    )
+
 export {
     selectApp,
     selectRouter,
@@ -140,6 +147,7 @@ export {
     makeSelectItemsPerPage,
     makeSelectSearchResults,
     makeSelectSearchString,
+    makeSelectMyReview,
     makeSelectUsers,
     makeSelectVendors
 }

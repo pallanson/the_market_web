@@ -12,6 +12,7 @@ import {
 import auth from '../utils/auth'
 const {
     apiSuccess,
+    getAllItems,
     apiFailure,
     apiRequest,
     clearError
@@ -268,6 +269,7 @@ function * post_review(action) {
         yield put(apiSuccess({
             currentReviews: [...reviews]
         }))
+        yield put(getAllItems())
     } catch(error) {
         console.error(error)
         yield put(apiFailure(error.response.data.message))

@@ -76,7 +76,8 @@ export const logout = (state = initialState) => {
 
 export const clearError = (state = initialState) => ({
     ...state,
-    error: null
+    error: null,
+    currentReviews: [],
 })
 
 /* Connect Reducers to Types */

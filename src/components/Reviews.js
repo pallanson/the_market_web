@@ -23,8 +23,8 @@ function ReviewList({ reviews = [], users = {}, getUser = () => {} }) {
     return (
         <ul>
         {
-            reviews.map((review) => (
-                <div className="card-body">
+            reviews.map((review, key) => (
+                <div key={key} className="card-body">
                     <h3>{review.title}</h3>
                     <small className="text-muted">Posted by {getName(review.userId)}</small>
                     <strong className="float-right">{review.rating} / 5</strong>
@@ -33,6 +33,52 @@ function ReviewList({ reviews = [], users = {}, getUser = () => {} }) {
             ))
         }
     </ul>
+    )
+}
+
+
+const renderReviewControls = ({handleInputChange, title = '', text = '', rating = 5}) => (
+    <div>
+        <div className="form-group row">
+            <label htmlFor="title" className="col-md-2 col-form-label text-md-right">Title</label>
+            <div className="col-md-10">
+                <input onChange={handleInputChange} value={title} type="text" id="title" className="form-control" name="title" required autoFocus/>
+            </div>
+        </div>
+        <div className="form-group row">
+            <label htmlFor="text" className="col-md-2 col-form-label text-md-right">Review Text</label>
+            <div className="col-md-10">
+                <input onChange={handleInputChange} value={text} type="text" id="text" className="form-control reviewText" name="text" required/>
+            </div>
+        </div>
+        <div className="form-group row">
+            <label htmlFor="rating" className="col-md-2 col-form-label text-md-right">Rating</label>
+            <div className="col-md-10">
+                <input onChange={handleInputChange} value={rating} type="number" max="5" min="1" id="rating" className="form-control" name="rating" required/>
+            </div>
+        </div>
+        <div className="col-md-8 offset-md-4">
+            <button type="submit" className="btn btn-primary float-right">Add</button>
+        </div>
+    </div>
+)
+
+const renderAddReviewForm = ({ handleInputChange, addReview, title, text, rating, error }) => (
+    <form onSubmit={evt => addReview(evt, title, text, rating )}>
+        <h1 className="mb-3">Add Review</h1>
+        { error && (<p>{ error }</p>) }
+        { renderReviewControls({handleInputChange, title, text, rating}) }
+    </form>
+)
+
+
+const renderEditReviewForm = ({ handleInputChange, editReview, title, text, rating, error }) => {
+    return (
+        <form onSubmit={evt => editReview(evt, title, text, rating )}>
+            <h1 className="mb-3">Edit Review</h1>
+            { error && (<p>{ error }</p>) }
+            { renderReviewControls({handleInputChange, title, text, rating}) }
+        </form>
     )
 }
 
@@ -53,9 +99,31 @@ export default class Reviews extends React.Component {
         });
     }
 
+    componentWillReceiveProps({ currentReview }) {
+        if (currentReview) {
+            const { title, text, rating } = currentReview
+            this.setState({
+                title,
+                text, 
+                rating
+            })
+        }
+    }
+
     render() {
-        const { addReview, reviews, authed, error, users, getUser } = this.props
-        const { title, text, rating } = this.state
+        const { handleInputChange, props, state } = this
+        const { 
+            addReview,
+            editReview,
+            currentReview,
+            reviews,
+            authed,
+            error,
+            users,
+            getUser 
+        } = props
+        const { title, text, rating } = state
+        console.log(currentReview)
         return (
             <div className="container">
                 <div className="card card-outline-secondary my-4">
@@ -68,33 +136,13 @@ export default class Reviews extends React.Component {
                 </div>
 
                 <div className="card card-outline-secondary my-4 px-5 py-3">
-                    { authed ? (
-                    <form onSubmit={evt => addReview(evt, title, text, rating )}>
-                        <h1 className="mb-3">Add Review</h1>
-                        { error && (<p>{ error }</p>) }
-                        <div className="form-group row">
-                            <label htmlFor="title" className="col-md-2 col-form-label text-md-right">Title</label>
-                            <div className="col-md-10">
-                                <input onChange={this.handleInputChange} type="text" id="title" className="form-control" name="title" required autoFocus/>
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <label htmlFor="text" className="col-md-2 col-form-label text-md-right">Review Text</label>
-                            <div className="col-md-10">
-                                <input onChange={this.handleInputChange} type="text" id="text" className="form-control reviewText" name="text" required/>
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <label htmlFor="rating" className="col-md-2 col-form-label text-md-right">Rating</label>
-                            <div className="col-md-10">
-                                <input onChange={this.handleInputChange} type="text" id="rating" className="form-control" name="rating" required/>
-                            </div>
-                        </div>
-                        <div className="col-md-8 offset-md-4">
-                            <button type="submit" className="btn btn-primary float-right">Add</button>
-                        </div>
-                    </form>
-                    ) : <p>You must be logged in to review an item</p> }
+                    { authed 
+                        ? (
+                            currentReview
+                                ? renderEditReviewForm({ handleInputChange, title, text, rating, editReview, error })
+                                : renderAddReviewForm({ handleInputChange, addReview, error, title, text, rating })
+                        )
+                        : <p>You must be logged in to review an item</p> }
                 </div>
                 <br/>
             </div>
