@@ -2,9 +2,10 @@ import { Redirect } from 'react-router-dom'
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../index.css';
+import auth from '../../utils/auth';
 
 export default (props) => {
-    const isAuthed = false
+    const isAuthed = auth.getToken() != null
 
     return !isAuthed ? (
         <div className="container" align="center">
