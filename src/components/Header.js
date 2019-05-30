@@ -31,13 +31,7 @@ export default ({isAuthed = false, currentUser = {}, cartItems = 0, isVendor = f
                         isAuthed ? (
                             <React.Fragment>
                                 <li>
-                                    <Link className="nav-link" to="/account">Account</Link>
-                                </li>
-                                <li>
-                                    <Link className="nav-link" to="/cart">Cart{cartItems > 0 ? ` (${cartItems})` : null}</Link>
-                                </li>
-                                <li>
-                                    <Link className="nav-link" to="/logout">Logout</Link>
+                                    <Link className="nav-link" to="/vendor">Vendors</Link>
                                 </li>
                                 {
                                     isVendor && (
@@ -46,6 +40,15 @@ export default ({isAuthed = false, currentUser = {}, cartItems = 0, isVendor = f
                                         </li>
                                     )
                                 }
+                                <li>
+                                    <Link className="nav-link" to="/account">Account</Link>
+                                </li>
+                                <li>
+                                    <Link className="nav-link" to="/cart">Cart{cartItems > 0 ? ` (${cartItems})` : null}</Link>
+                                </li>
+                                <li>
+                                    <Link className="nav-link" to="/logout">Logout</Link>
+                                </li>
                             </React.Fragment>
                         ) : (
                             <React.Fragment>
