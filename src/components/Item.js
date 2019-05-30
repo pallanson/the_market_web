@@ -6,13 +6,13 @@ import Cooler from "../img/cooler.png";
 const Item = () => (
     <div className="col-lg-4 col-md-6 mb-4">
         <div className="card h-100">
-            <a href="#"><img className="card-img-top" src={Cooler} alt=""/></a>
+            <a href="#"><img id="img" className="card-img-top" src={Cooler} alt=""/></a>
             <div className="card-body">
                 <h4 className="card-title">
-                    <a href="#">Item Five</a>
+                    <a id="title" href="#">Item Five</a>
                 </h4>
-                <h5>$24.99</h5>
-                <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
+                <h5 id="price">$24.99</h5>
+                <p id="description" className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
                     aspernatur! Lorem ipsum dolor sit amet.</p>
             </div>
             <div className="card-footer">

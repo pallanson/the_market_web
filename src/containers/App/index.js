@@ -11,6 +11,7 @@ import Index from "../../components/Index";
 import Footer from "../../components/Footer"
 import HomePage from '../HomePage'
 import CategoryPage from '../CategoryPage'
+import ItemPage from '../ItemPage'
 import CheckoutPage from '../CheckoutPage'
 import CartPage from '../CartPage'
 import LoginPage from '../LoginPage'
@@ -34,6 +35,7 @@ const App = ({ loadUser, authed, user }) => {
             <Route path="/category/:categoryName" component={CategoryPage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/register" component={RegisterPage} />
+            <Route path="/item/" component={ItemPage} />
             <PrivateRoute path="/logout" component={LogoutPage} />
             <PrivateRoute path="/checkout" component={CheckoutPage} />
             <PrivateRoute path="/cart" component={CartPage} />

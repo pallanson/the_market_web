@@ -3,13 +3,14 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../index.css';
 import auth from '../../utils/auth';
+import RegisterForm from "../../components/RegisterForm";
 
 export default (props) => {
     const isAuthed = auth.getToken() != null
 
     return !isAuthed ? (
         <div className="container" align="center">
-            <h3>Not Found ;(</h3>
+            <RegisterForm register={props} />
         </div>
     ) : (
         <Redirect

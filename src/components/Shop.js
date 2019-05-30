@@ -10,16 +10,30 @@ import Ice from '../img/ice.png';
 import Carrots from '../img/carrot.png';
 import Cooler from '../img/cooler.png';
 import Shirt from '../img/shirt.png';
+import { Link } from "react-router-dom";
 
 // Map array
 function ItemList(props) {
     const items = props.items;
     const listItems = items.map((item) => (
-        <li key={item.id}>
-            <div>{item.id}</div>
-            <div>{item.title}</div>
-            <div>{item.price}</div>
-        </li>
+            <div className="col-lg-4 col-md-6 mb-4 float-left">
+                <div className="card h-100">
+                    <a href="#"><img id="img" className="card-img-top" src={Cooler} alt=""/></a>
+                    <div className="card-body">
+                        <h4 className="card-title">
+                           <Link to="/item">{item.title}</Link>
+                        </h4>
+                        <h5 id="price">{item.price}</h5>
+                        <p id="description" className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                            Amet numquam
+                            aspernatur! Lorem ipsum dolor sit amet.</p>
+                    </div>
+                    <div className="card-footer">
+                        <small className="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                        <button className="btn_purchase" onClick="">Purchase</button>
+                    </div>
+                </div>
+            </div>
         )
     );
     return (
@@ -64,7 +78,7 @@ const Shop = () => (
         </Carousel>
 
         <div className="row">
-            <ItemList items={items} />
+            <ItemList items={items}/>
         </div>
     </div>
 );
