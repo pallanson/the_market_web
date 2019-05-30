@@ -2,97 +2,16 @@ import { Types } from "../actions"
 import { createReducer } from "reduxsauce"
 import auth from '../utils/auth'
 import { initialState } from "../constants"
-import {
-    login,
-    register,
-    logout,
-    fetchUser
-} from './user'
-import {
-    getAddresses,
-    addAddress,
-    editAddress,
-    removeAddress
-} from './address'
-import {
-    getCart,
-    addToCart,
-    removeFromCart,
-    checkout
-} from './cart'
-import {
-    addPaymentOption,
-    getPaymentOptions,
-    getPaymentOption,
-    editPaymentOption,
-    deletePaymentOption,
-} from './payment'
-import {
-    getReviews,
-    postReview,
-    editReview,
-    removeReview,
-    updateRating
-} from './review'
-import {
-    getAllVendors,
-    getVendor,
-    getVendorByName,
-    getStore,
-    createVendor,
-    updateVendor
-} from './vendor'
-import {
-    getAllItems,
-    getItem,
-    getItemByName,
-    createItem,
-    updateItem,
-    deleteItem,
-} from './item'
 
 const {
-    LOGIN,
-    REGISTER,
+    API_SUCCESS,
+    API_FAILURE,
+    API_REQUEST,
     LOGOUT,
-    GET_ADDRESSES,
-    ADD_ADDRESS,
-    EDIT_ADDRESS,
-    REMOVE_ADDRESS,
-    GET_CART,
-    ADD_TO_CART,
-    REMOVE_FROM_CART,
-    CHECKOUT,
-    GET_REVIEWS,
-    POST_REVIEW,
-    EDIT_REVIEW,
-    REMOVE_REVIEW,
-    UPDATE_RATING,
-    ADD_PAYMENT_OPTION,
-    GET_PAYMENT_OPTION,
-    GET_PAYMENT_OPTIONS,
-    EDIT_PAYMENT_OPTION,
-    DELETE_PAYMENT_OPTION,
-    GET_ALL_VENDORS,
-    GET_VENDOR,
-    GET_VENDOR_BY_NAME,
-    GET_STORE,
-    CREATE_VENDOR,
-    UPDATE_VENDOR,
-    GET_ALL_ITEMS,
-    GET_ITEM,
-    GET_ITEM_BY_NAME,
-    CREATE_ITEM,
-    UPDATE_ITEM,
-    DELETE_ITEM,
     SET_CATEGORY,
-    FETCH_USER,
     SEARCH,
     LOAD_LOCAL_USER
 } = Types
-
-/* Selectors */
-
 
 /* Reducers */
 export const setCategory = (state = initialState, {category}) => ({
@@ -103,6 +22,25 @@ export const setCategory = (state = initialState, {category}) => ({
 export const search = (state = initialState, {searchString}) => ({
     ...state,
     searchString
+})
+
+export const apiRequest = (state = initialState, {request, requestPayload = {}}) => ({
+    ...state,
+    request,
+    requestPayload,
+    loading: true
+})
+
+export const apiSuccess = (state = initialState, {payload = {}}) => ({
+    ...state,
+    loading: false,
+    ...payload
+})
+
+export const apiFailure = (state = initialState, {error = null}) => ({
+    ...state,
+    loading: false,
+    error
 })
 
 export const loadLocalUser = (state = initialState) => {
@@ -116,43 +54,26 @@ export const loadLocalUser = (state = initialState) => {
     }
 }
 
+export const logout = (state = initialState) => {
+    auth.clearAppStorage()
+    auth.clearToken()
+    auth.clearUserInfo()
+    return {
+        ...state,
+        currentUser: {},
+        loggedIn: false,
+        password: null,
+        token: null
+    }
+}
+
 /* Connect Reducers to Types */
 export default createReducer(initialState, {
-    [LOGIN]: login,
-    [REGISTER]: register,
-    [LOGOUT]: logout,
-    [FETCH_USER]: fetchUser,
-    [GET_ADDRESSES]: getAddresses,
-    [ADD_ADDRESS]: addAddress,
-    [EDIT_ADDRESS]: editAddress,
-    [REMOVE_ADDRESS]: removeAddress,
-    [GET_CART]: getCart,
-    [ADD_TO_CART]: addToCart,
-    [REMOVE_FROM_CART]: removeFromCart,
-    [CHECKOUT]: checkout,
-    [GET_REVIEWS]: getReviews,
-    [POST_REVIEW]: postReview,
-    [EDIT_REVIEW]: editReview,
-    [REMOVE_REVIEW]: removeReview,
-    [UPDATE_RATING]: updateRating,
-    [ADD_PAYMENT_OPTION]: addPaymentOption,
-    [GET_PAYMENT_OPTIONS]: getPaymentOptions,
-    [GET_PAYMENT_OPTION]: getPaymentOption,
-    [EDIT_PAYMENT_OPTION]: editPaymentOption,
-    [DELETE_PAYMENT_OPTION]: deletePaymentOption,
-    [GET_ALL_VENDORS]: getAllVendors,
-    [GET_VENDOR]: getVendor,
-    [GET_VENDOR_BY_NAME]: getVendorByName,
-    [GET_STORE]: getStore,
-    [CREATE_VENDOR]: createVendor,
-    [UPDATE_VENDOR]: updateVendor,
-    [GET_ALL_ITEMS]: getAllItems,
-    [GET_ITEM]: getItem,
-    [GET_ITEM_BY_NAME]: getItemByName,
-    [CREATE_ITEM]: createItem,
-    [UPDATE_ITEM]: updateItem,
-    [DELETE_ITEM]: deleteItem,
     [SET_CATEGORY]: setCategory,
     [SEARCH]: search,
-    [LOAD_LOCAL_USER]: loadLocalUser
+    [LOAD_LOCAL_USER]: loadLocalUser,
+    [API_SUCCESS]: apiSuccess,
+    [API_FAILURE]: apiFailure,
+    [API_REQUEST]: apiRequest,
+    [LOGOUT]: logout
 })

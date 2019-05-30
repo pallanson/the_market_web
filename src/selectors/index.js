@@ -86,6 +86,12 @@ const makeSelectVendors = () =>
         ({vendors}) => vendors 
     )
 
+const makeSelectUsers = () =>
+    createSelector(
+        selectApp,
+        ({users}) => users 
+    )
+
 export {
     selectApp,
     selectRouter,
@@ -101,5 +107,6 @@ export {
     makeSelectPaymentMethods,
     makeSelectSearchResults,
     makeSelectSearchString,
+    makeSelectUsers,
     makeSelectVendors
 }

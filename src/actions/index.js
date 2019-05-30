@@ -38,7 +38,10 @@ const { Types, Creators } = createActions({
     setCategory: ["category"],
     search: ["searchString"],
     loadLocalUser: null,
-    fetchUser: ["userId"]
+    fetchUser: ["userId"],
+    apiRequest: ["endpoint", "payload"],
+    apiSuccess: ["payload"],
+    apiFailure: ["error"]
 });
 
 export { Types };
