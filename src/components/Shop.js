@@ -6,10 +6,10 @@ import Item from './Item'
 import Salt_Sale from '../img/salt_banner.png';
 
 // Map Items to cards
-export const ItemList = ({ items = [], itemClick }) => (
+export const ItemList = ({ items = [], itemClick, authed }) => (
     <div className="row">
         {items.map((item, key) =>
-            <Item item={item} key={key} onClick={itemClick} />
+            <Item item={item} authed={authed} key={key} onClick={itemClick} />
         )}
     </div>
 )
@@ -18,6 +18,7 @@ const Shop = ({
     items,
     pages,
     page,
+    authed,
     setPage = () => {},
     itemClick}) => {
 
@@ -55,7 +56,7 @@ const Shop = ({
                 </Carousel.Item>
             </Carousel>
 
-            <ItemList items={items} itemClick={itemClick}/>
+            <ItemList items={items} authed={authed} itemClick={itemClick}/>
             
             <div className="row col-12 justify-content-center">
                 <nav>

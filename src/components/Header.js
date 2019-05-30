@@ -6,7 +6,7 @@ import '../index.css';
 import '../containers/App/App.css';
 import Logo from '../img/vector_logo.svg';
 
-export default ({isAuthed = false, currentUser = {}}) => (
+export default ({isAuthed = false, currentUser = {}, cartItems = 0}) => (
     <div className="container">
         <Navbar sticky="top" className="navbar-dark">
             <Link className="navbar-brand" to="/"><img alt="Logo"
@@ -32,6 +32,9 @@ export default ({isAuthed = false, currentUser = {}}) => (
                             <React.Fragment>
                                 <li>
                                     <Link className="nav-link" to="/account">Account</Link>
+                                </li>
+                                <li>
+                                    <Link className="nav-link" to="/cart">Cart{cartItems > 0 ? ` (${cartItems})` : null}</Link>
                                 </li>
                                 <li>
                                     <Link className="nav-link" to="/logout">Logout</Link>
