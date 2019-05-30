@@ -400,7 +400,10 @@ function * get_all_vendors(action) {
         const { data: vendors } = yield call(get, `vendor`)
         
         yield put(apiSuccess({
-            vendors
+            vendors: vendors.reduce((obj, cur) => {
+                obj[cur.userId] = cur
+                return obj
+            }, {})
         }))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
@@ -414,10 +417,10 @@ function * get_vendor(action) {
         const { data: vendor } = yield call(get, `vendor/id/${vendorId}`)
         
         yield put(apiSuccess({
-            vendors: [
+            vendors: {
                 ...vendors,
-                vendor
-            ]
+                [vendor.userId]: vendor
+            }
         }))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
@@ -431,10 +434,10 @@ function * get_vendor_by_name(action) {
         const { data: vendor } = yield call(get, `vendor/name/${name}`)
         
         yield put(apiSuccess({
-            vendors: [
+            vendors: {
                 ...vendors,
-                vendor
-            ]
+                [vendor.userId]: vendor
+            }
         }))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
@@ -461,10 +464,10 @@ function * create_vendor(action) {
         const { data } = yield call(post, `vendor`, { name })
         
         yield put(apiSuccess({
-            vendors: [
+            vendors: {
                 ...vendors,
-                data.vendor
-            ]
+                [data.userId]: data
+            }
         }))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
@@ -478,10 +481,10 @@ function * update_vendor(action) {
         const { data } = yield call(putReq, `vendor`, { name })
         
         yield put(apiSuccess({
-            vendors: [
+            vendors: {
                 ...vendors,
-                data
-            ]
+                [data.userId]: data
+            }
         }))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))

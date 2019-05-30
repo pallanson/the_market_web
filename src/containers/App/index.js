@@ -7,7 +7,8 @@ import { Switch, Route } from 'react-router-dom'
 import {
     makeSelectIsAuthed,
     makeSelectCurrentUser,
-    makeSelectCurrentCartCount
+    makeSelectCurrentCartCount,
+    makeSelectIsCurrentUserVendor
 } from '../../selectors'
 import Actions from '../../actions'
 import Header from '../../components/Header.js'
@@ -25,11 +26,13 @@ import AccountPage from '../AccountPage'
 import SitemapPage from '../SitemapPage'
 import VendorPage from '../VendorPage'
 import RegisterPage from '../RegisterPage'
+import StorePage from '../StorePage'
+import SearchPage from '../SearchPage'
 import OrderCompletePage from '../OrderCompletePage'
 import PrivateRoute from '../PrivateRoute'
 import NotFound from '../NotFound'
 
-const App = ({ loadUser, loadItems, loadCart, authed, user, cartItems }) => {
+const App = ({ loadUser, loadItems, loadCart, loadVendors, authed, user, cartItems }) => {
 
     useEffect(() => {
         // Load user from local storage, if available
@@ -38,7 +41,9 @@ const App = ({ loadUser, loadItems, loadCart, authed, user, cartItems }) => {
         loadItems()
         // Load the cart
         loadCart()
-    }, [loadUser, loadItems, loadCart]);
+        // Load vendors
+        loadVendors()
+    }, [loadUser, loadItems, loadCart, loadVendors]);
     
     return (
     <div className="App">
@@ -51,6 +56,8 @@ const App = ({ loadUser, loadItems, loadCart, authed, user, cartItems }) => {
             <Route path="/login" component={LoginPage} />
             <Route path="/register" component={RegisterPage} />
             <Route path="/item/:itemId" component={ItemPage} />
+            <Route path="/vendor/:userId" component={StorePage} />
+            <Route path="/search" component={SearchPage} />
             <Route path="/sitemap" component={SitemapPage} />
             <PrivateRoute path="/order-complete" component={OrderCompletePage} />
             <PrivateRoute path="/logout" component={LogoutPage} />
@@ -67,6 +74,7 @@ const App = ({ loadUser, loadItems, loadCart, authed, user, cartItems }) => {
 const mapStateToProps = createStructuredSelector({
     authed: makeSelectIsAuthed(),
     user: makeSelectCurrentUser(),
+    isVendor: makeSelectIsCurrentUserVendor(),
     cartItems: makeSelectCurrentCartCount()
 })
 
@@ -74,7 +82,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         loadUser: () => dispatch(Actions.loadLocalUser()),
         loadItems: () => dispatch(Actions.getAllItems()),
-        loadCart: () => dispatch(Actions.getCart())
+        loadCart: () => dispatch(Actions.getCart()),
+        loadVendors: () => dispatch(Actions.getAllVendors())
     }
 }
 

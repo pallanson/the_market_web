@@ -1,5 +1,6 @@
 import { createSelector, createSelectorCreator } from 'reselect'
 import { initialState } from '../constants'
+import { select } from 'redux-saga/effects';
 
 const selectApp = state => state.app || initialState
 
@@ -83,17 +84,17 @@ const makeSelectSearchString = () =>
         ({searchString}) => searchString 
     )
 
-const makeSelectItemsPerPage = () =>
-    createSelector(
-        selectApp,
-        ({itemsPerPage}) => itemsPerPage
-    )
-
 const makeSelectSearchResults = () =>
     createSelector(
         makeSelectItemsArray(),
         makeSelectSearchString(),
-        (items, searchString) => items.filter(item => item.name.includes(searchString))
+        (items, searchString) => items.filter(item => item.name.toLowerCase().includes(searchString) || item.description.toLowerCase().includes(searchString))
+    )
+
+const makeSelectItemsPerPage = () =>
+    createSelector(
+        selectApp,
+        ({itemsPerPage}) => itemsPerPage
     )
 
 
@@ -113,6 +114,12 @@ const makeSelectVendors = () =>
     createSelector(
         selectApp,
         ({vendors}) => vendors 
+    )
+
+const makeSelectVendorsArray = () =>
+    createSelector(
+        selectApp,
+        ({vendors}) => Object.values(vendors)
     )
 
 const makeSelectUsers = () =>
@@ -153,10 +160,36 @@ const makeSelectCurrentAddress = () =>
         ({currentAddress}) => currentAddress
     )
 
+const makeSelectCurrentVendor = () =>
+    createSelector(
+        selectApp,
+        ({currentVendor}) => currentVendor
+    )
+
 const makeSelectOrder = () =>
     createSelector(
         selectApp,
         ({order}) => order
+    )
+
+const makeSelectIsCurrentUserVendor = () => 
+    createSelector(
+        makeSelectVendors(),
+        makeSelectCurrentUser(),
+        (vendors, user) => !!vendors[user.userId]
+    )
+
+const makeSelectCurrentVendorItems = () =>
+    createSelector(
+        makeSelectVendors(),
+        makeSelectItemsArray(),
+        makeSelectCurrentVendor(),
+        (vendors, items, currentVendor) => {
+            if (!currentVendor || !vendors[currentVendor]) return []
+            const vendorId = vendors[currentVendor].vendorId
+            if (!vendorId) return []
+            return items.filter(item => item.vendorId === vendorId)
+        }
     )
 
 export {
@@ -165,15 +198,19 @@ export {
     makeSelectIsAuthed,
     makeSelectAddresses,
     makeSelectCart,
+    makeSelectVendorsArray,
     makeSelectCartTotal,
+    makeSelectCurrentVendor,
     makeSelectCurrentCategory,
     makeSelectCurrentPaymentMethod,
+    makeSelectCurrentVendorItems,
     makeSelectCurrentAddress,
     makeSelectCurrentUser,
     makeSelectError,
     makeSelectItems,
     makeSelectItemsArray,
     makeSelectCurrentItem,
+    makeSelectIsCurrentUserVendor,
     makeSelectCurrentReviews,
     makeSelectItemsInCategory,
     makeSelectLoading,

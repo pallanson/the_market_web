@@ -7,6 +7,7 @@ const {
     API_SUCCESS,
     API_FAILURE,
     API_REQUEST,
+    SET_CURRENT_VENDOR,
     SET_CURRENT_ADDRESS,
     SET_CURRENT_PAYMENT_METHOD,
     CLEAR_ERROR,
@@ -63,6 +64,11 @@ export const setCurrentPaymentMethod = (state = initialState, {method}) => ({
     currentPaymentMethod: method
 })
 
+export const setCurrentVendor = (state = initialState, {userId}) => ({
+    ...state,
+    currentVendor: userId
+})
+
 export const loadLocalUser = (state = initialState) => {
     const token = auth.getToken()
     const currentUser = auth.getUserInfo()
@@ -111,5 +117,6 @@ export default createReducer(initialState, {
     [CLEAR_CART]: clearCart,
     [SET_CURRENT_ADDRESS]: setCurrentAddress,
     [SET_CURRENT_PAYMENT_METHOD]: setCurrentPaymentMethod,
+    [SET_CURRENT_VENDOR]: setCurrentVendor,
     [LOGOUT]: logout
 })
