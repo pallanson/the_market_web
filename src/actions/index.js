@@ -6,13 +6,15 @@ const { Types, Creators } = createActions({
     register: ["email", "firstName", "lastName", "password"],
     logout: null,
     getAddresses: null,
+    setCurrentAddress: ["address"],
+    setCurrentPaymentMethod: ["method"],
     addAddress: ["name", "addressLineOne", "addressLineTwo", "city", "country", "postcode"],
     editAddress: ["addressId", "name", "addressLineOne", "addressLineTwo", "city", "country", "postcode"],
     removeAddress: ["addressId"],
     getCart: null,
     addToCart: ["itemId"],
     removeFromCart: ["itemId"],
-    checkout: ["addressId"],
+    checkout: ["addressId", "paymentId"],
     getReviews: ["itemId"],
     postReview: ["itemId", "title", "text", "rating"],
     editReview: ["itemId", "title", "text", "rating"],
@@ -43,7 +45,8 @@ const { Types, Creators } = createActions({
     apiRequest: ["endpoint", "payload"],
     apiSuccess: ["payload"],
     apiFailure: ["error"],
-    clearError: null
+    clearError: null,
+    clearCart: null
 });
 
 export { Types };

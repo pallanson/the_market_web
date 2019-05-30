@@ -25,6 +25,7 @@ import AccountPage from '../AccountPage'
 import SitemapPage from '../SitemapPage'
 import VendorPage from '../VendorPage'
 import RegisterPage from '../RegisterPage'
+import OrderCompletePage from '../OrderCompletePage'
 import PrivateRoute from '../PrivateRoute'
 import NotFound from '../NotFound'
 
@@ -40,7 +41,7 @@ const App = ({ loadUser, loadItems, loadCart, authed, user, cartItems }) => {
     }, [loadUser, loadItems, loadCart]);
     
     return (
-    <div>
+    <div className="App">
         <Header isAuthed={authed} currentUser={user} cartItems={cartItems} />
         <Switch>
             <Route exact path="/" component={HomePage} />
@@ -51,6 +52,7 @@ const App = ({ loadUser, loadItems, loadCart, authed, user, cartItems }) => {
             <Route path="/register" component={RegisterPage} />
             <Route path="/item/:itemId" component={ItemPage} />
             <Route path="/sitemap" component={SitemapPage} />
+            <PrivateRoute path="/order-complete" component={OrderCompletePage} />
             <PrivateRoute path="/logout" component={LogoutPage} />
             <PrivateRoute path="/account" component={AccountPage} />
             <PrivateRoute path="/vendor" component={VendorPage} />

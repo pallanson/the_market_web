@@ -23,6 +23,8 @@ export const initialState = {
     currentStore: [],
     currentReviews: [],
     paymentMethods: [],
+    currentPaymentMethod: null,
+    currentAddress: null,
     vendors: [],
     searchResults: [],
     searchString: '',
@@ -33,7 +35,9 @@ export const initialState = {
     requestPayload: {},
     itemsPerPage: 3,
     loading: false,
-    order: null,
+    order: {
+        items: []
+    },
     error: null,
     loggedIn: false,
     token: null
