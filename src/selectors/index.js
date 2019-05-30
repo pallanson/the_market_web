@@ -138,7 +138,25 @@ const makeSelectCartTotal = () =>
     createSelector(
         makeSelectCart(),
         makeSelectItems(),
-        (cart, items) => cart.reduce((acum, cur) => acum + items[cur.itemId].price * cur.quantity, 0)
+        (cart, items) => cart.reduce((acum, cur) => acum + (items[cur.itemId] ? items[cur.itemId].price : 0) * cur.quantity, 0)
+    )
+
+const makeSelectCurrentPaymentMethod = () =>
+    createSelector(
+        selectApp,
+        ({currentPaymentMethod}) => currentPaymentMethod
+    )
+
+const makeSelectCurrentAddress = () =>
+    createSelector(
+        selectApp,
+        ({currentAddress}) => currentAddress
+    )
+
+const makeSelectOrder = () =>
+    createSelector(
+        selectApp,
+        ({order}) => order
     )
 
 export {
@@ -149,6 +167,8 @@ export {
     makeSelectCart,
     makeSelectCartTotal,
     makeSelectCurrentCategory,
+    makeSelectCurrentPaymentMethod,
+    makeSelectCurrentAddress,
     makeSelectCurrentUser,
     makeSelectError,
     makeSelectItems,
@@ -164,5 +184,6 @@ export {
     makeSelectCurrentCartCount,
     makeSelectMyReview,
     makeSelectUsers,
-    makeSelectVendors
+    makeSelectVendors,
+    makeSelectOrder
 }

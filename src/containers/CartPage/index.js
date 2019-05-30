@@ -17,7 +17,7 @@ const ItemList = ({ items, cart, addOneMore, removeFromCart }) => (
             const { rating, name, price, imageUrl } = items[itemId]
             return (
             <div key={key} className="col-12 row">
-                <div className="col-2 text-center">
+                <div className="col-2 d-none d-sm-inline text-center">
                     <img className="img-responsive" src={imageUrl} alt="preview" width="120" height="80"></img>
                 </div>
                 <div className="col-6 text-sm-center">
@@ -26,16 +26,16 @@ const ItemList = ({ items, cart, addOneMore, removeFromCart }) => (
                         <small>{ ratingStr(rating) }</small>
                     </h4>
                 </div>
-                <div className="col-4 text-sm-center text-md-right row align-items-center">
-                    <div className="col-6 text-md-right">
+                <div className="col-4 col-xs-6 text-sm-center row align-items-center">
+                    <div className="col col-xs-12">
                         <h6><strong>${price}<span className="text-muted"> x </span></strong>{quantity}</h6>
                     </div>
-                    <div className="col-3 text-right">
+                    <div className="col col-xs-12 text-right">
                         <button type="button" className="btn btn-info btn-xs" onClick={() => addOneMore(itemId)}>
                             Add
                         </button>
                     </div>
-                    <div className="col-3 text-right">
+                    <div className="col col-xs-12 text-right">
                         <button type="button" className="btn btn-outline-danger btn-xs" onClick={() => removeFromCart(itemId)}>
                             Remove
                         </button>
@@ -49,40 +49,42 @@ const ItemList = ({ items, cart, addOneMore, removeFromCart }) => (
 )
 
 const CartPage = ({ items, addOneMore, removeFromCart, cart, cartTotal }) => (
-    <div className="col-lg-9 mt-5 float-right">
-         <div className="card">
-            <div className="card-header">
-                <h3>Cart</h3>
-            </div>
-            {
-                cartTotal === 0 ?
-                    (
-                        <p className="text-center">Your cart is empty!</p>
-                    )
-                : (
-                    <div>
-                        <div className="card-body">
-                            <ItemList 
-                                cart={cart}
-                                addOneMore={addOneMore}
-                                removeFromCart={removeFromCart}
-                                items={items}
-                            />
-                        </div>
-                        <div className="card-footer">
-                            <div className="float-right">
-                                <div className="d-inline-flex align-items-center">
-                                    <p className="mr-5">Total price: ${cartTotal}</p>
-                                    <Link to="/checkout"><button className="btn btn-success">Checkout</button></Link>
+    <div class="container justify-content-center">
+        <div className="col-lg-12">
+            <div className="card">
+                <div className="card-header">
+                    <h3>Cart</h3>
+                </div>
+                {
+                    cartTotal === 0 ?
+                        (
+                            <p className="text-center">Your cart is empty!</p>
+                        )
+                    : (
+                        <div>
+                            <div className="card-body">
+                                <ItemList 
+                                    cart={cart}
+                                    addOneMore={addOneMore}
+                                    removeFromCart={removeFromCart}
+                                    items={items}
+                                />
+                            </div>
+                            <div className="card-footer">
+                                <div className="float-right">
+                                    <div className="d-inline-flex align-items-center">
+                                        <p className="mr-5">Total price: ${cartTotal}</p>
+                                        <Link to="/checkout"><button className="btn btn-success">Checkout</button></Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                )
-            }
+                    )
+                }
+            </div>
         </div>
     </div>
-);
+)
 
 const mapStateToProps = createStructuredSelector({
     items: makeSelectItems(),

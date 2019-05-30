@@ -13,8 +13,11 @@ import auth from '../utils/auth'
 const {
     apiSuccess,
     getAllItems,
+    setCurrentPaymentMethod,
+    setCurrentAddress,
     apiFailure,
     apiRequest,
+    clearCart,
     clearError
 } = Actions
 const {
@@ -148,6 +151,7 @@ function * add_address(action) {
                 data
             ]
         }))
+        yield put(setCurrentAddress(data))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
     }
@@ -239,10 +243,10 @@ function * remove_from_cart(action) {
 }
 function * checkout(action) {
     yield put(apiRequest('POST: cart/checkout', action))
-    const {addressId} = action
+    const {addressId, paymentId} = action
     try {
-        const { data: order } = yield call(post, `cart/checkout`, { addressId })
-        
+        const { data: order } = yield call(post, `cart/checkout`, { addressId, paymentId })
+        yield put(clearCart())
         yield put(apiSuccess({
             order
         }))
@@ -329,6 +333,8 @@ function * add_payment_option(action) {
                 data
             ]
         }))
+
+        yield put(setCurrentPaymentMethod(data))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
     }
@@ -383,6 +389,7 @@ function * delete_payment_option(action) {
         yield put(apiSuccess({
             paymentMethods: [ ...data ]
         }))
+        yield put(setCurrentPaymentMethod(null))
     } catch(error) {
         yield put(apiFailure(error.response.data.message))
     }
