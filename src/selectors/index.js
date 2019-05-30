@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect'
 import { initialState } from '../constants'
-import { search } from '../reducers';
 
 const selectApp = state => state.app || initialState
 
@@ -86,6 +85,12 @@ const makeSelectVendors = () =>
         ({vendors}) => vendors 
     )
 
+const makeSelectUsers = () =>
+    createSelector(
+        selectApp,
+        ({users}) => users 
+    )
+
 export {
     selectApp,
     selectRouter,
@@ -101,5 +106,6 @@ export {
     makeSelectPaymentMethods,
     makeSelectSearchResults,
     makeSelectSearchString,
+    makeSelectUsers,
     makeSelectVendors
 }

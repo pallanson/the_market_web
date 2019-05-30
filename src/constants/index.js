@@ -23,6 +23,8 @@ export const initialState = {
     currentCategory: CategoryFilters.SHOW_ALL,
     password: '',
     email: '',
+    request: null,
+    requestPayload: {},
     loading: false,
     order: null,
     error: null,
