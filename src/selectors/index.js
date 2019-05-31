@@ -206,6 +206,17 @@ const makeSelectCurrentVendorItems = () =>
         }
     )
 
+const makeSelectMyItems = () =>
+    createSelector(
+        makeSelectIsCurrentUserVendor(),
+        makeSelectCurrentUserVendorId(),
+        makeSelectItemsArray(),
+        (isVendor, vendorId, items) => {
+            if (!isVendor) return []
+            return items.filter(item => item.vendorId === vendorId)
+        }
+    )
+
 export {
     selectApp,
     selectRouter,
@@ -229,6 +240,7 @@ export {
     makeSelectCurrentReviews,
     makeSelectItemsInCategory,
     makeSelectLoading,
+    makeSelectMyItems,
     makeSelectPaymentMethods,
     makeSelectItemsPerPage,
     makeSelectSearchResults,
