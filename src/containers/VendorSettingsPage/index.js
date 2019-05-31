@@ -8,9 +8,14 @@ import AddItemForm from "../../components/AddItemForm";
 import CreateVendorForm from "../../components/CreateVendorForm";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../index.css';
-import { makeSelectIsCurrentUserVendor, makeSelectCurrentUserVendorId, makeSelectVendors } from '../../selectors';
+import {
+    makeSelectMyItems,
+    makeSelectIsCurrentUserVendor,
+    makeSelectCurrentUserVendorId,
+    makeSelectVendors 
+} from '../../selectors';
 
-export const VendorSettingsPage = ({ isVendor, vendorId, createVendor, createItem }) => {
+export const VendorSettingsPage = ({ isVendor, items, vendorId, createVendor, createItem }) => {
 
     return (
         <div className="container row" align="center">
@@ -19,7 +24,20 @@ export const VendorSettingsPage = ({ isVendor, vendorId, createVendor, createIte
                 {
                     isVendor ?
                     (
-                        <AddItemForm vendorId={vendorId} createItem={createItem} />
+                        <div className="row">
+                            <div className="col-9">
+                                <h3>My Items</h3>
+                                {items.length > 0 ? items.map((item, key) => {
+                                    const { name, price, itemId } = item
+                                    return (
+                                        <div className="input-group-prepend" key={key}>
+                                            <p className="m-3">{ name } - {price} (ID: { itemId })</p>
+                                        </div>
+                                    )
+                                }) : <p>No items in your store</p>}
+                            </div>
+                            <AddItemForm className="col-9" vendorId={vendorId} createItem={createItem} />
+                        </div>
                     ) : (
                         <CreateVendorForm createVendor={createVendor} />
                     )
@@ -31,6 +49,7 @@ export const VendorSettingsPage = ({ isVendor, vendorId, createVendor, createIte
 
 const mapStateToProps = createStructuredSelector({
     isVendor: makeSelectIsCurrentUserVendor(),
+    items: makeSelectMyItems(),
     vendorId: makeSelectCurrentUserVendorId(),
     vendors: makeSelectVendors()
 })
