@@ -27,7 +27,11 @@ const mapStateToProps = createStructuredSelector({
   
   const mapDispatchToProps = (dispatch) => {
     return {
-      deleteUser: () => {}
+      deleteUser: () => {
+        if (window.confirm(`We're sad to see you go ;´(!\nPressing confirm will delete all evidence of you existing ;)`)) {
+          dispatch(Actions.deleteUser())
+        }
+      }
     }
   }
 

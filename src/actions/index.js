@@ -46,6 +46,7 @@ const { Types, Creators } = createActions({
     apiRequest: ["endpoint", "payload"],
     apiSuccess: ["payload"],
     apiFailure: ["error"],
+    deleteUser: null,
     clearError: null,
     clearCart: null
 });
