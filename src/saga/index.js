@@ -272,15 +272,13 @@ function * post_review(action) {
     yield put(apiRequest(`POST: item/${itemId}/reviews`, action))
     try {
         yield call(post, `item/${itemId}/review`, { title, text, rating })
+    } catch(error) {
         const { data: reviews } = yield call(get, `item/${itemId}/reviews`)
         
         yield put(apiSuccess({
             currentReviews: [...reviews]
         }))
         yield put(getAllItems())
-    } catch(error) {
-        console.error(error)
-        yield put(apiFailure(error.response.data.message))
     }
 }
 function * edit_review(action) {
@@ -288,13 +286,12 @@ function * edit_review(action) {
     yield put(apiRequest(`GET: item/${itemId}/reviews`, action))
     try {
         yield call(putReq, `item/${itemId}/review`, { title, text, rating })
+    } catch(error) {
         const { data: reviews } = yield call(get, `item/${itemId}/reviews`)
         
         yield put(apiSuccess({
             currentReviews: [...reviews]
         }))
-    } catch(error) {
-        yield put(apiFailure(error.response.data.message))
     }
 }
 function * remove_review(action) {
