@@ -135,7 +135,7 @@ function * add_address(action) {
         postcode
     } = action
     try {
-        const addresses = yield select(makeSelectAddresses)
+        const addresses = yield select(makeSelectAddresses())
         const { data } = yield call(post, `address/add`, {
             name,
             addressLineOne,
@@ -324,7 +324,7 @@ function * add_payment_option(action) {
     yield put(apiRequest('GET: ', action))
     const {nameOnCard, cardNumber, expiryDate} = action
     try {
-        const paymentMethods = yield select(makeSelectPaymentMethods)
+        const paymentMethods = yield select(makeSelectPaymentMethods())
         const { data } = yield call(post, `payment`, {nameOnCard, cardNumber, expiryDate})
         
         yield put(apiSuccess({
