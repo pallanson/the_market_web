@@ -30,7 +30,7 @@ const Item = ({item, onClick = () => {}, authed}) => {
     return (
         <div className="col-lg-4 col-md-6 mb-4">
             <div className="card">
-                <Link to={`item/${itemId}`}><img id="img" className="card-img-top" src={imageUrl} alt=""/></Link>
+                <Link to={`/item/${itemId}`}><img id="img" className="card-img-top" src={imageUrl} alt=""/></Link>
                 <div className="card-body">
                     <h4 className="card-title">
                         <Link id="title" to={`/item/${itemId}`}>{ name }</Link>
