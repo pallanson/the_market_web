@@ -18,7 +18,8 @@ const {
     apiFailure,
     apiRequest,
     clearCart,
-    clearError
+    clearError,
+    logout
 } = Actions
 const {
     LOGIN,
@@ -53,7 +54,8 @@ const {
     CREATE_ITEM,
     UPDATE_ITEM,
     DELETE_ITEM,
-    FETCH_USER
+    FETCH_USER,
+    DELETE_USER
 } = Types
 
 function * login(action) {
@@ -110,6 +112,17 @@ function * register(action) {
         yield put(apiFailure(error.response.data.message))
     }
 }
+function * delete_user(action) {
+    yield put(apiRequest('DELETE: user', action))
+    try {
+        yield call(del, `user`)
+        yield put(apiSuccess({}))
+        yield put(logout())
+    } catch (error) {
+        yield put(apiFailure(error.response.data.message))
+    } 
+}
+
 function * get_addresses(action) {
     try {
         const currentUser = yield select(makeSelectCurrentUser())
@@ -632,6 +645,7 @@ export default function * rootSaga() {
         takeLatest(CREATE_ITEM, create_item),
         takeLatest(UPDATE_ITEM, update_item),
         takeLatest(DELETE_ITEM, delete_item),
+        takeLatest(DELETE_USER, delete_user),
         takeLatest(FETCH_USER, fetch_user),
         takeLatest('@@router/LOCATION_CHANGE', clear_error)
     ])
