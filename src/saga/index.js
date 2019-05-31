@@ -112,7 +112,7 @@ function * register(action) {
 }
 function * get_addresses(action) {
     try {
-        const currentUser = yield select(makeSelectCurrentUser)
+        const currentUser = yield select(makeSelectCurrentUser())
         yield put(apiRequest(`GET: address/user/${currentUser.userId}`, action))
         const { data } = yield call(get, `address/user/${currentUser.userId}`)
         
@@ -168,7 +168,7 @@ function * edit_address(action) {
     } = action
     yield put(apiRequest(`PUT address/${addressId}`, action))
     try {
-        const currentUser = yield select(makeSelectCurrentUser)
+        const currentUser = yield select(makeSelectCurrentUser())
         yield call(putReq, `address/${addressId}`, {
             name,
             addressLineOne,
@@ -189,7 +189,7 @@ function * edit_address(action) {
 function * remove_address(action) {
     const { addressId } = action
     try {
-        const currentUser = yield select(makeSelectCurrentUser)
+        const currentUser = yield select(makeSelectCurrentUser())
         yield put(apiRequest(`GET: address/user/${currentUser.userId}`, action))
         yield call(del, `address/user/${addressId}`)
         const { data } = yield call(get, `address/user/${currentUser.userId}`)
@@ -343,7 +343,7 @@ function * get_payment_option(action) {
     const {paymentId} = action
     yield put(apiRequest(`GET: payment/${paymentId}`, action))
     try {
-        const paymentMethods = yield select(makeSelectPaymentMethods)
+        const paymentMethods = yield select(makeSelectPaymentMethods())
         const { data } = yield call(get, `payment/${paymentId}`)
         
         yield put(apiSuccess({
@@ -510,7 +510,7 @@ function * get_item(action) {
     yield put(apiRequest(`GET: item/${itemId}`, action))
     try {
         const { data: item } = yield call(get, `item/${itemId}`)
-        const items = yield select(makeSelectItems)
+        const items = yield select(makeSelectItems())
         yield put(apiSuccess({
             items: {
                 ...items,
